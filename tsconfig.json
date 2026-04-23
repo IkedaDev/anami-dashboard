@@ -19,7 +19,8 @@
       "@pages/*": ["./src/app/pages/*"],
       "@components/*": ["./src/app/components/*"],
       "@interfaces/*": ["./src/app/interfaces/*"],
-      "@directives/*": ["./src/app/directives/*"]
+      "@directives/*": ["./src/app/directives/*"],
+      "@models/*": ["./src/app/models/*"]
     }
   },
   "angularCompilerOptions": {

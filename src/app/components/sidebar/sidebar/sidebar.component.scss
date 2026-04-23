@@ -1,0 +1,141 @@
+@use '@ikedadev/anami-ui/scss/abstracts/colors' as *;
+@use '@ikedadev/anami-ui/scss/abstracts/variables' as *;
+@use 'sass:map';
+
+:host {
+  display: block;
+}
+
+.db-sidebar {
+  width: 28rem;
+  background-color: clr('bg', 'surface'); // #ffffff
+  border-right: 1px solid clr('brand', 'secondary'); // #e8d3cd
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: $transition-base;
+
+  .db-logo {
+    padding: map.get($an-spacings, '8') map.get($an-spacings, '6'); //
+    color: clr('brand', 'primary');
+    display: flex;
+    justify-content: center;
+    img {
+      width: 40%;
+    }
+  }
+
+  nav {
+    display: flex;
+    flex-direction: column;
+    // Añadimos padding al contenedor para que los bloques de color "floten" con separación
+    // padding: map.get($an-spacings, '2') map.get($an-spacings, '3');
+    // gap: map.get($an-spacings, '1'); // Separación de 0.4rem entre bloques
+  }
+
+  .an-cell {
+    text-decoration: none;
+    color: clr('text', 'light'); // #8c817c
+    display: flex;
+    align-items: center;
+    position: relative;
+    gap: map.get($an-spacings, '4');
+    padding: map.get($an-spacings, '4') map.get($an-spacings, '5');
+    // margin-bottom: 1rem;
+    // --- ESTILO CUADRADO TOTAL ---
+    border-radius: 0; // Sin redondeo para máxima elegancia
+    border: none; // Eliminamos todas las líneas/bordes
+    background-color: transparent;
+    transition:
+      background-color 0.25s ease,
+      color 0.2s ease;
+    cursor: pointer;
+
+    svg {
+      color: clr('text', 'light');
+      width: 2rem;
+      height: 2rem;
+      transition: color 0.2s;
+    }
+
+    .an-cell__title {
+      font-size: 1.45rem;
+      font-weight: $font-weight-regular;
+      letter-spacing: 0.01em;
+    }
+
+    // --- SEPARACIÓN POR HOVER (Cambio de fondo) ---
+    &:hover:not(.an-cell--active) {
+      background-color: clr('brand', 'blob'); // #fffcfa (contraste sutil con surface)
+      .an-cell__title {
+        font-weight: $font-weight-medium;
+      }
+      color: clr('text', 'main');
+
+      svg {
+        color: clr('text', 'main');
+      }
+    }
+
+    // --- SEPARACIÓN POR SELECCIÓN (Estado Activo) ---
+    &--active {
+      background-color: clr('brand', 'blob'); // #f9ebe7 (bloque sólido de color marca)
+      color: clr('brand', 'primary'); // #c47f6b
+      &::before {
+        content: '';
+        width: 3px;
+        position: absolute;
+        height: 100%;
+        background: clr('brand', 'primary');
+        right: 0;
+      }
+      svg {
+        color: clr('brand', 'primary');
+      }
+
+      .an-cell__title {
+        font-weight: $font-weight-medium;
+        color: clr('brand', 'primary');
+      }
+    }
+  }
+}
+
+.db-profile {
+  margin-top: auto; // Empuja la sección al final del sidebar
+  padding: 0 map.get($an-spacings, '6'); // 2.4rem
+
+  .an-cell {
+    padding: map.get($an-spacings, '3') 0; // 1.2rem
+    border-top: 1px solid clr('brand', 'secondary'); // #e8d3cd
+    border-radius: 0; // Look cuadrado y elegante
+    display: flex;
+    align-items: center;
+    gap: map.get($an-spacings, '3');
+
+    // Desactivamos el efecto de hover para esta celda específica si no es link
+    &:hover {
+      background-color: transparent;
+      cursor: pointer;
+    }
+    &:hover:not(.an-cell--active) {
+      background-color: transparent;
+    }
+  }
+
+  .user-avatar {
+    width: 3.2rem;
+    height: 3.2rem;
+    background-color: clr('brand', 'secondary'); // #e8d3cd
+    border-radius: $radius-pill; // 50% / circular
+    flex-shrink: 0;
+  }
+
+  .an-cell__title {
+    font-size: 1.3rem;
+    color: clr('text', 'main'); // Color principal de texto
+    font-weight: $font-weight-medium;
+  }
+}

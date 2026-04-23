@@ -29,9 +29,10 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.scss"
-            ]
+            "styles": ["src/styles.scss", "node_modules/@ikedadev/anami-ui/dist/anami.css"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["node_modules"]
+            }
           },
           "configurations": {
             "production": {

@@ -25,6 +25,28 @@ export const routes: Routes = [
         path: '',
         loadComponent: () => import('@pages/dashboard/home-page/home-page').then((c) => c.HomePage),
       },
+      {
+        path: 'citas',
+        loadComponent: () =>
+          import('@pages/dashboard/appoinments-page/appoinments-page').then(
+            (c) => c.AppoinmentsPage,
+          ),
+      },
+      {
+        path: 'clientes',
+        loadComponent: () =>
+          import('@pages/dashboard/clients-page/clients-page').then((c) => c.ClientsPage),
+      },
+      {
+        path: 'servicios',
+        loadComponent: () =>
+          import('@pages/dashboard/services-page/services-page').then((c) => c.ServicesPage),
+      },
+      {
+        path: 'reportes',
+        loadComponent: () =>
+          import('@pages/dashboard/reports-page/reports-page').then((c) => c.ReportsPage),
+      },
     ],
   },
   {
