@@ -1,1 +1,39 @@
-<p>login-page works!</p>
+<div class="an-container login-wrapper">
+  <div class="an-card login-card">
+    <div class="login-header">
+      <img src="assets/images/logo.png" alt="Anami Logo" class="login-logo" />
+      <h1 class="an-title">Anami</h1>
+      <p class="an-text-muted">Ingresa tus credenciales para acceder al dashboard</p>
+    </div>
+
+    <form class="login-form">
+      <div class="an-field">
+        <label for="email" class="an-label">Correo Electrónico</label>
+        <input
+          type="email"
+          id="email"
+          class="an-field__input"
+          placeholder="ejemplo@anami.com"
+          required
+        />
+      </div>
+
+      <div class="an-field">
+        <label for="password" class="an-label">Contraseña</label>
+        <input
+          type="password"
+          id="password"
+          class="an-field__input"
+          placeholder="••••••••"
+          required
+        />
+      </div>
+
+      <div class="login-actions">
+        <button type="submit" class="an-button primary an-button--xl full-width">
+          Iniciar Sesión
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

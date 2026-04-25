@@ -1,0 +1,40 @@
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1.6rem;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 3.2rem;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 2.4rem;
+  .login-logo {
+    height: 90px;
+    margin-bottom: 1.6rem;
+  }
+  & img {
+    margin: auto;
+  }
+  @media screen and (max-width: 350px) {
+    p {
+      display: none;
+    }
+  }
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.full-width {
+  width: 100%;
+}
