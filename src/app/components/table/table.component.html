@@ -1,0 +1,47 @@
+<table class="an-table">
+  <thead class="an-table__header">
+    <tr>
+      @for (col of columns(); track col.key) {
+        <th class="an-table__header-cell">{{ col.label }}</th>
+      }
+    </tr>
+  </thead>
+
+  <tbody class="an-table__body">
+    @if (loading()) {
+      @for (i of [1, 2, 3, 4, 5]; track i) {
+        <tr class="an-table__row">
+          @for (col of columns(); track col.key) {
+            <td class="an-table__cell">
+              <div class="an-skeleton an-skeleton--h-sm an-skeleton--w-75"></div>
+            </td>
+          }
+        </tr>
+      }
+
+    } @else {
+      @for (row of data(); track row.id || $index) {
+        <tr class="an-table__row">
+          @for (col of columns(); track col.key) {
+            <td class="an-table__cell" [attr.data-label]="col.label">
+              @if (getTemplate(col.key); as customTemplate) {
+                <ng-container
+                  [ngTemplateOutlet]="customTemplate"
+                  [ngTemplateOutletContext]="{ $implicit: row }"
+                ></ng-container>
+              } @else {
+                {{ row[col.key] }}
+              }
+            </td>
+          }
+        </tr>
+      } @empty {
+        <tr class="an-table__row">
+          <td [attr.colspan]="columns().length" class="an-table__cell an-text--center">
+            No hay registros disponibles.
+          </td>
+        </tr>
+      }
+    }
+  </tbody>
+</table>

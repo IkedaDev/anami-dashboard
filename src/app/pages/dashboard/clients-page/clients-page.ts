@@ -1,9 +1,45 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, signal } from '@angular/core';
+import { AnTableComponent } from '@components/index';
+import { AnTemplateDirective } from '@directives/index';
+import { AnTableColumn } from '@models/index';
 
 @Component({
   selector: 'app-clients-page',
-  imports: [],
+  imports: [AnTableComponent, CommonModule, AnTemplateDirective],
   templateUrl: './clients-page.html',
   styleUrl: './clients-page.scss',
 })
-export class ClientsPage {}
+export class ClientsPage {
+  public columns = signal<AnTableColumn[]>([
+    { key: 'clientName', label: 'Cliente' },
+    { key: 'service', label: 'Servicio' },
+    { key: 'date', label: 'Fecha' },
+    { key: 'status', label: 'Estado' }, // Usaremos template
+    { key: 'actions', label: 'Acciones' }, // Usaremos template
+  ]);
+
+  // 2. La data cruda del cliente (o de tu API/SQL)
+  public appointments = signal([
+    {
+      id: 101,
+      clientName: 'Sebastian Ikeda',
+      service: 'Masaje Deportivo',
+      date: '2024-05-20',
+      isActive: true, // Usaremos este booleano para el template de status
+      price: 45000,
+    },
+    {
+      id: 102,
+      clientName: 'Ana María',
+      service: 'Piedras Calientes',
+      date: '2024-05-21',
+      isActive: false,
+      price: 55000,
+    },
+  ]);
+
+  handleEdit(appointment: any) {
+    console.log('Editando cita:', appointment.id);
+  }
+}
