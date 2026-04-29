@@ -45,4 +45,12 @@
       </div>
     </ng-template>
   </app-table>
+
+  <app-pagination
+    [totalItems]="totalClients()"
+    [pageSize]="20"
+    [currentPage]="page()"
+    (pageChange)="onPageChange($event)"
+  >
+  </app-pagination>
 </div>

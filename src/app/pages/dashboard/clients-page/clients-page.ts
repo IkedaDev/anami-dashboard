@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import { AnTableComponent } from '@components/index';
+import { AnPaginationComponent } from '@components/pagination/pagination.component';
 import { AnTemplateDirective } from '@directives/index';
 import { AnTableColumn } from '@models/index';
 
 @Component({
   selector: 'app-clients-page',
-  imports: [AnTableComponent, CommonModule, AnTemplateDirective],
+  imports: [AnTableComponent, CommonModule, AnTemplateDirective, AnPaginationComponent],
   templateUrl: './clients-page.html',
   styleUrl: './clients-page.scss',
 })
@@ -41,5 +42,14 @@ export class ClientsPage {
 
   handleEdit(appointment: any) {
     console.log('Editando cita:', appointment.id);
+  }
+
+  public totalClients = signal(120);
+  public page = signal(1);
+
+  onPageChange(newPage: number) {
+    this.page.set(newPage);
+    // Aquí llamarías a tu API o TanStack Query para traer la nueva página
+    // this.clientService.fetch(newPage);
   }
 }
