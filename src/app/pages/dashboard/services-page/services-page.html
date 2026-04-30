@@ -1,1 +1,78 @@
-<p>services-page works!</p>
+<div class="an-container an-py-6">
+  <div
+    class="an-flex an-justify-between an-align-center an-mb-6"
+    style="display: flex; justify-content: space-between; align-items: center"
+  >
+    <div>
+      <h2 class="an-text--h2 an-m-0">Catálogo de Servicios</h2>
+      <p class="an-text--light">Gestiona los precios y duraciones de tus masajes</p>
+    </div>
+    <button class="an-button an-button--success">+ Agregar Servicio</button>
+  </div>
+
+  <div class="an-grid an-grid--responsive an-mb-7">
+    <an-card-stats title="Total Servicios" value="12" icon="an-icon-list"></an-card-stats>
+    <an-card-stats title="Precio Promedio" value="$32.500" icon="an-icon-money"></an-card-stats>
+    <an-card-stats title="Activos" value="10" icon="an-icon-check"></an-card-stats>
+  </div>
+
+  <section class="an-card">
+    <app-table [columns]="columns()" [data]="services()">
+      <ng-template anTemplate="name" let-row>
+        <div class="an-flex an-flex-column">
+          <span class="an-text--bold">{{ row.name }}</span>
+          <!-- <small class="an-text--light" style="font-size: 1.2rem">{{ row.description }}</small> -->
+        </div>
+      </ng-template>
+
+      <ng-template anTemplate="price" let-row>
+        <span class="an-text--primary" style="font-weight: 600">
+          {{ row.price | currency: 'CLP' : '$' }}
+        </span>
+      </ng-template>
+
+      <ng-template anTemplate="duration" let-row>
+        <div class="an-flex an-align-center an-gap-1">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <span>{{ row.duration }} min</span>
+        </div>
+      </ng-template>
+
+      <ng-template anTemplate="status" let-row>
+        <span
+          class="an-pill"
+          [class.an-pill--success]="row.isActive"
+          [class.an-pill--danger]="!row.isActive"
+        >
+          {{ row.isActive ? 'Visible' : 'Oculto' }}
+        </span>
+      </ng-template>
+
+      <ng-template anTemplate="actions" let-row>
+        <div style="display: flex; gap: 0.8rem">
+          <button class="an-button an-button--outline an-button--sm" (click)="handleEdit(row)">
+            Configurar
+          </button>
+        </div>
+      </ng-template>
+    </app-table>
+
+    <app-pagination
+      [totalItems]="services().length"
+      [pageSize]="10"
+      [currentPage]="page()"
+      (pageChange)="page.set($event)"
+    >
+    </app-pagination>
+  </section>
+</div>
