@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
+import { AnCardStatsComponent } from '@components/card-stats/card-stats.component';
 import { AnTableComponent } from '@components/index';
 import { AnPaginationComponent } from '@components/pagination/pagination.component';
 import { AnTemplateDirective } from '@directives/index';
@@ -7,7 +8,13 @@ import { AnTableColumn } from '@models/index';
 
 @Component({
   selector: 'app-clients-page',
-  imports: [AnTableComponent, CommonModule, AnTemplateDirective, AnPaginationComponent],
+  imports: [
+    AnTableComponent,
+    CommonModule,
+    AnTemplateDirective,
+    AnPaginationComponent,
+    AnCardStatsComponent,
+  ],
   templateUrl: './clients-page.html',
   styleUrl: './clients-page.scss',
 })

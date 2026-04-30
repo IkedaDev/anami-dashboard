@@ -1,0 +1,81 @@
+// @use '@ikedadev/anami-ui/scss/abstracts/colors' as *;
+// @use '@ikedadev/anami-ui/scss/abstracts/variables' as *;
+// @use '@ikedadev/anami-ui/scss/abstracts/mixins' as *;
+// @use 'sass:map';
+// .an-card--stat {
+//   position: relative;
+//   padding: 2rem 2.4rem;
+//   background-color: clr('bg', 'surface');
+//   border: 0.1rem solid clr('brand', 'secondary');
+//   border-radius: $radius-md;
+//   overflow: hidden;
+//   display: flex;
+//   flex-direction: column;
+//   gap: 1.2rem;
+//   transition: border-color 0.2s ease;
+
+//   // El toque de color: Una barra sutil a la izquierda
+//   &::before {
+//     content: '';
+//     position: absolute;
+//     left: 0;
+//     top: 0;
+//     bottom: 0;
+//     width: 0.4rem;
+//     background-color: clr('brand', 'primary');
+//   }
+
+//   &:hover {
+//     border-color: clr('brand', 'primary');
+//   }
+
+//   .an-card__stat-header {
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+//   }
+
+//   .an-card__stat-title {
+//     @include text-style(1.3rem, 600, 1.2);
+//     color: clr('text', 'light');
+//     text-transform: uppercase;
+//     letter-spacing: 0.05rem;
+//   }
+
+//   .an-card__stat-icon {
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     width: 3.6rem;
+//     height: 3.6rem;
+//     background-color: clr('brand', 'blob'); // Fondo suave Anami
+//     color: clr('brand', 'primary');
+//     border-radius: $radius-sm;
+//     font-size: 1.8rem;
+//   }
+
+//   .an-card__stat-value {
+//     @include text-style(2.8rem, 700, 1);
+//     color: clr('text', 'main');
+//     margin: 0.4rem 0;
+//   }
+
+//   .an-card__stat-footer {
+//     display: flex;
+//     align-items: center;
+//     gap: 0.8rem;
+//     @include text-style(1.2rem, 400, 1);
+
+//     .an-trend-up {
+//       color: clr('feedback', 'success');
+//       font-weight: 700;
+//     }
+//     .an-trend-down {
+//       color: clr('feedback', 'danger');
+//       font-weight: 700;
+//     }
+//     .an-trend-label {
+//       color: clr('text', 'light');
+//     }
+//   }
+// }

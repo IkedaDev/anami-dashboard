@@ -1,6 +1,26 @@
 <div class="an-container">
   <h2 class="an-title">Gestión de Clientes</h2>
 
+  <an-card-stats
+    title="Ingresos Totales"
+    value="$1.250.000"
+    icon="an-icon-money"
+    trend="+15%"
+    trendDirection="up"
+  >
+  </an-card-stats>
+
+  <an-card-stats
+    title="Citas Hoy"
+    value="12"
+    icon="an-icon-calendar"
+    trend="-2"
+    trendDirection="down"
+  >
+  </an-card-stats>
+
+  <an-card-stats title="Nuevos Clientes" value="45" icon="an-icon-user"> </an-card-stats>
+
   <app-table [columns]="columns()" [data]="appointments()">
     <ng-template anTemplate="status" let-row>
       <span

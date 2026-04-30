@@ -1,0 +1,42 @@
+<div class="an-card-stats">
+  @if (loading()) {
+    <div class="an-card-stats__header" style="width: 100%">
+      <div
+        class="an-card-stats__title an-skeleton an-skeleton--h-md an-skeleton--w-full an-mr-5"
+      ></div>
+      <div class="an-card-stats__icon an-skeleton an-skeleton--avatar"></div>
+    </div>
+    <div
+      class="an-card-stats__title an-skeleton an-skeleton--h-md an-skeleton--w-full an-mr-5"
+    ></div>
+    <div class="an-card-stats__footer">
+      <div class="an-card-stats__title an-skeleton an-skeleton--h-md an-skeleton--w-50"></div>
+    </div>
+  } @else {
+    <div class="an-card-stats__header">
+      <span class="an-card-stats__title">{{ title() }}</span>
+      <div class="an-card-stats__icon">
+        <i [class]="icon()"></i>
+      </div>
+    </div>
+
+    <h3 class="an-card-stats__value">{{ value() }}</h3>
+
+    <div class="an-card-stats__footer">
+      @if (trend()) {
+        <span
+          [class]="
+            trendDirection() === 'up'
+              ? 'an-card-stats__trend an-card-stats__trend--up'
+              : 'an-card-stats__trend an-card-stats__trend--down'
+          "
+        >
+          {{ trendDirection() === 'up' ? '↑' : '↓' }} {{ trend() }}
+        </span>
+      }
+      @if (trendLabel()) {
+        <span class="an-card-stats__label">{{ trendLabel() }}</span>
+      }
+    </div>
+  }
+</div>
