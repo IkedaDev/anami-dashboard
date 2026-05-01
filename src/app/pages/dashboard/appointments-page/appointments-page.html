@@ -1,0 +1,97 @@
+<div class="an-container an-py-6">
+  <div
+    class="an-flex an-justify-between an-align-center an-mb-6"
+    style="display: flex; justify-content: space-between; align-items: center"
+  >
+    <h2 class="an-text--h2 an-m-0">Agenda de Citas</h2>
+    <button class="an-button an-button--success">Agendar Nueva Cita</button>
+  </div>
+
+  <div class="an-grid an-grid--responsive an-mb-7">
+    <an-card-stats title="Citas Hoy" value="12" icon="an-icon-calendar"></an-card-stats>
+    <an-card-stats title="Por Atender" value="4" icon="an-icon-clock" trend="33%"></an-card-stats>
+    <an-card-stats
+      title="Ventas del Día"
+      value="$245.000"
+      icon="an-icon-money"
+      trend="+15%"
+      trendDirection="up"
+    ></an-card-stats>
+  </div>
+
+  <section class="an-card">
+    <app-table [columns]="columns()" [data]="appointments()">
+      <ng-template anTemplate="startsAt" let-row>
+        <div class="an-flex an-flex-column">
+          <span class="an-text--bold">{{ row.startsAt | date: 'dd/MM/yyyy' }}</span>
+          <small class="an-text--primary">{{ row.startsAt | date: 'HH:mm' }} hrs</small>
+        </div>
+      </ng-template>
+
+      <ng-template anTemplate="client" let-row>
+        <div class="an-flex an-flex-column">
+          <span class="an-text--main">{{ row.client.fullName }}</span>
+          <!-- <small class="an-text--light" style="font-size: 1.1rem">{{ row.client.phone }}</small> -->
+        </div>
+      </ng-template>
+
+      <ng-template anTemplate="items" let-row>
+        <div class="an-text--light" style="font-size: 1.2rem; line-height: 1.2">
+          @for (item of row.items; track item.id) {
+            <div class="an-mb-1">• {{ item.service.name }}</div>
+          }
+        </div>
+      </ng-template>
+
+      <ng-template anTemplate="totalPrice" let-row>
+        <span class="an-text--bold">
+          {{ row.totalPrice | currency: 'CLP' : '$' }}
+        </span>
+      </ng-template>
+
+      <ng-template anTemplate="locationType" let-row>
+        <span class="an-text--small">
+          @if (row.locationType === 'HOTEL') {
+            🏨 Hotel
+          } @else if (row.locationType === 'STUDIO') {
+            🌿 Studio
+          } @else {
+            🏠 Domicilio
+          }
+        </span>
+      </ng-template>
+
+      <ng-template anTemplate="status" let-row>
+        <span
+          class="an-pill"
+          [class.an-pill--success]="row.status === 'COMPLETED'"
+          [class.an-pill--warning]="row.status === 'SCHEDULED'"
+          [class.an-pill--danger]="row.status === 'CANCELLED' || row.status === 'NO_SHOW'"
+        >
+          {{ row.status }}
+        </span>
+      </ng-template>
+
+      <ng-template anTemplate="actions" let-row>
+        <div class="an-flex an-gap-2" style="display: flex; gap: 0.8rem">
+          <button class="an-button an-button--outline an-button--sm">Ver</button>
+          @if (row.status === 'SCHEDULED') {
+            <button
+              class="an-button an-button--outline-danger an-button--sm"
+              (click)="onCancel(row.id)"
+            >
+              Anular
+            </button>
+          }
+        </div>
+      </ng-template>
+    </app-table>
+
+    <app-pagination
+      [totalItems]="appointments().length"
+      [pageSize]="10"
+      [currentPage]="page()"
+      (pageChange)="page.set($event)"
+    ></app-pagination>
+  </section>
+</div>

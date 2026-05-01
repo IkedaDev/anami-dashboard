@@ -28,8 +28,8 @@ export const routes: Routes = [
       {
         path: 'citas',
         loadComponent: () =>
-          import('@pages/dashboard/appoinments-page/appoinments-page').then(
-            (c) => c.AppoinmentsPage,
+          import('@pages/dashboard/appointments-page/appointments-page').then(
+            (c) => c.AppointmentsPage,
           ),
       },
       {
