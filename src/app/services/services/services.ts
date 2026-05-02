@@ -1,13 +1,19 @@
 import { Injectable, signal } from '@angular/core';
 import { Service } from '@models/service.model';
+import { servicesFake } from '../../../data/mock-data';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ServicesService {
+  public services = signal<Service[]>(servicesFake);
   public selectedService = signal<Service | null>(null);
 
-  saveService() {
+  get() {
+    return this.services;
+  }
+
+  save() {
     const data = this.selectedService();
     if (!data) return;
 

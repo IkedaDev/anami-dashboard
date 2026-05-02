@@ -28,27 +28,6 @@ export class ClientsPage {
     { key: 'actions', label: 'Acciones' },
   ]);
 
-  // Data Mock que sigue tu estructura de Prisma
-  public clients = signal<Client[]>([
-    {
-      id: '0vic6sjo1lhksxadts6462',
-      fullName: 'Sebastian Ikeda',
-      rut: '19.158.143-1',
-      email: 's.ikeda@anami.com',
-      phone: '+56912345678',
-      address: 'Newen Antu 962, La Florida',
-      notes: 'Alergia a aceites cítricos',
-    },
-    {
-      id: 'u928js82js82js82js82',
-      fullName: 'Ana María',
-      rut: '12.345.678-9',
-      email: 'ana.m@gmail.com',
-      phone: '+56987654321',
-      address: 'Providencia 1234, Of 51',
-    },
-  ]);
-
   public page = signal(1);
   public totalClients = signal(1250);
 
