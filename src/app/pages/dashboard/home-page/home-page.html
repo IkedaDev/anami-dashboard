@@ -1,37 +1,80 @@
-<header
-  style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4.8rem"
->
-  <div>
-    <h2 class="an-text--display">Panel de Gestión</h2>
-    <p style="color: #8c817c; font-size: 1.4rem">Bienvenida de nuevo, Anette.</p>
-  </div>
-  <button class="an-button">+ Nueva Cita</button>
-</header>
+<div class="an-container an-py-6">
+  <header class="an-mb-7">
+    <h1 class="an-text--h2 an-m-0">Hola, Anami 👋</h1>
+    <p class="an-text--light">Esto es lo que está pasando en tu estudio hoy.</p>
+  </header>
 
-<div class="an-grid">
-  <div class="an-card">
-    <span class="stat-label" style="font-size: 1.2rem; color: #8c817c">Ingresos del Mes</span>
-    <span class="stat-value" style="font-size: 3.2rem; font-weight: 500; display: block"
-      >$1.240.000</span
-    >
-    <span style="color: #2d9d78; font-size: 1.2rem; font-weight: 600">↑ 12% vs mes anterior</span>
+  <div class="an-grid an-grid--responsive an-mb-7">
+    <an-card-stats
+      title="Ingresos Mes"
+      [value]="(totalRevenue() | currency: 'CLP' : '$')!"
+      icon="an-icon-money"
+      trend="+15%"
+      trendDirection="up"
+    ></an-card-stats>
+    <an-card-stats
+      title="Citas Hoy"
+      [value]="appointmentsToday().toString()"
+      icon="an-icon-calendar"
+      trend="Pico a las 15:00"
+    ></an-card-stats>
+    <an-card-stats
+      title="Clientes Nuevos"
+      [value]="newClients().toString()"
+      icon="an-icon-user"
+      trend="+4 esta semana"
+      trendDirection="up"
+    ></an-card-stats>
   </div>
-</div>
 
-<section style="margin-top: 4.8rem">
-  <h3 class="an-text--h2">Próximas Citas</h3>
-  <div class="an-table">
-    <div class="an-table__header">
-      <div class="an-table__header-cell" style="flex: 1.5">Cliente</div>
-      <div class="an-table__header-cell">Servicio</div>
-      <div class="an-table__header-cell">Estado</div>
+  <div class="an-grid an-grid--2 an-mb-7">
+    <div class="an-card">
+      <div class="an-card__header"><h3 class="an-text--h3">Rendimiento Semanal</h3></div>
+      <app-chart [options]="salesChartOptions"></app-chart>
     </div>
-    <div class="an-table__row">
-      <div class="an-table__cell" style="flex: 1.5; font-weight: 500">Sebastian Ikeda</div>
-      <div class="an-table__cell">Descontracturante</div>
-      <div class="an-table__cell">
-        <span class="an-pill an-pill--success">Confirmado</span>
+    <div class="an-card">
+      <div class="an-card__header"><h3 class="an-text--h3">Distribución de Ingresos</h3></div>
+      <app-chart [options]="revenueSplitOptions"></app-chart>
+    </div>
+  </div>
+
+  <div class="an-grid an-grid--main-side">
+    <div class="an-card">
+      <div class="an-card__header an-flex an-justify-between an-align-center">
+        <h3 class="an-text--h3">Próximas Sesiones</h3>
+        <button class="an-button an-button--outline an-button--sm">Ver Agenda Completa</button>
+      </div>
+
+      <app-table [columns]="tableColumns()" [data]="upcomingAppointments()">
+        <ng-template anTemplate="startsAt" let-row>
+          <span class="an-text--bold">{{ row.startsAt | date: 'HH:mm' }}</span>
+        </ng-template>
+
+        <ng-template anTemplate="client" let-row>
+          <span class="an-text--main">{{ row.client.fullName }}</span>
+        </ng-template>
+
+        <ng-template anTemplate="locationType" let-row>
+          <span class="an-text--small">{{
+            row.locationType === 'HOTEL' ? '🏨 Hotel' : '🌿 Studio'
+          }}</span>
+        </ng-template>
+
+        <ng-template anTemplate="actions" let-row>
+          <button class="an-button an-button--success an-button--sm">Iniciar</button>
+        </ng-template>
+      </app-table>
+    </div>
+
+    <div class="an-flex an-flex-column an-gap-4">
+      <div class="an-card">
+        <h3 class="an-text--h3 an-mb-4">Acciones Rápidas</h3>
+        <div class="an-flex an-flex-column an-gap-2">
+          <button class="an-button an-button--success">Agendar Masaje</button>
+          <button class="an-button an-button--primary">Nuevo Cliente</button>
+          <button class="an-button an-button--outline">Descargar Reporte SII</button>
+        </div>
       </div>
     </div>
   </div>
-</section>
+</div>

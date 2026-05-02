@@ -1,0 +1,24 @@
+@use '@ikedadev/anami-ui/scss/abstracts/colors' as *;
+@use '@ikedadev/anami-ui/scss/abstracts/variables' as *;
+@use '@ikedadev/anami-ui/scss/abstracts/mixins' as m;
+@use 'sass:map';
+
+.an-grid--main-side {
+  display: grid;
+  gap: 2.4rem;
+  grid-template-columns: 2fr 1fr; // El contenido principal ocupa el doble que el lateral
+
+  @include m.respond-to('tablet') {
+    grid-template-columns: 1fr; // En móvil se apilan
+  }
+}
+
+.an-grid--2 {
+  display: grid;
+  gap: 2.4rem;
+  grid-template-columns: 1fr 1fr;
+
+  @include m.respond-to('tablet') {
+    grid-template-columns: 1fr;
+  }
+}

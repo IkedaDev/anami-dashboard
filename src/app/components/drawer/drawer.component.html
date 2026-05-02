@@ -1,0 +1,33 @@
+<div class="an-drawer-overlay" [class.is-open]="isOpen()" (click)="close.emit()"></div>
+
+<aside class="an-drawer" [class.is-open]="isOpen()" (click)="$event.stopPropagation()">
+  <header class="an-drawer__header">
+    <div class="an-flex an-flex-column">
+      <h3 class="an-text--h3 an-m-0">{{ title() }}</h3>
+      @if (subtitle()) {
+        <small class="an-text--light">{{ subtitle() }}</small>
+      }
+    </div>
+    <button class="an-button --icon-only" (click)="close.emit()">
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  </header>
+
+  <div class="an-drawer__body">
+    <ng-content></ng-content>
+  </div>
+
+  <footer class="an-drawer__footer">
+    <ng-content select="[footer]"></ng-content>
+  </footer>
+</aside>
