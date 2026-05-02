@@ -7,7 +7,9 @@
       <h2 class="an-text--h2 an-m-0">Catálogo de Servicios</h2>
       <p class="an-text--light">Gestiona los precios y duraciones de tus masajes</p>
     </div>
-    <button class="an-button an-button--success">+ Agregar Servicio</button>
+    <button class="an-button an-button--success" (click)="openNewService()">
+      + Agregar Servicio
+    </button>
   </div>
 
   <div class="an-grid an-grid--responsive an-mb-7">
@@ -76,41 +78,45 @@
     </app-pagination>
   </section>
 
-  <button class="an-button an-button--success" (click)="openNewService()">
-    + Agregar Servicio
-  </button>
-
   <app-drawer
     [title]="drawerTitle()"
-    [subtitle]="selectedService()?.id ? 'ID: ' + selectedService()?.id : 'Crea un nuevo ítem'"
+    [subtitle]="selectedService()?.id ? 'ID: ' + selectedService()?.id : 'Crea un nuevo servicio'"
     [isOpen]="isDrawerOpen()"
     (close)="isDrawerOpen.set(false)"
   >
-    @if (selectedService()) {
-      <form class="an-flex an-flex-column an-gap-6">
-        <div class="an-field">
-          <label class="an-field__label">Nombre</label>
-          <input class="an-field__input" [value]="selectedService()!.name" />
-        </div>
+    <form class="an-flex an-flex-column an-gap-6">
+      <div class="an-field">
+        <label class="an-field__label">Nombre</label>
+        <input class="an-field__input" [value]="selectedService() && selectedService()!.name" />
+      </div>
 
-        <div class="an-flex an-gap-4 an-w-full">
-          <div class="an-field an-w-50">
-            <label class="an-field__label">Precio</label>
-            <input type="number" class="an-field__input" [value]="selectedService()!.price" />
-          </div>
-          <div class="an-field an-w-50">
-            <label class="an-field__label">Minutos</label>
-            <input type="number" class="an-field__input" [value]="selectedService()!.duration" />
-          </div>
+      <div class="an-flex an-gap-4 an-w-full">
+        <div class="an-field an-w-50">
+          <label class="an-field__label">Precio</label>
+          <input
+            type="number"
+            class="an-field__input"
+            [value]="selectedService() && selectedService()!.price"
+          />
         </div>
-      </form>
-    }
+        <div class="an-field an-w-50">
+          <label class="an-field__label">Minutos</label>
+          <input
+            type="number"
+            class="an-field__input"
+            [value]="selectedService() && selectedService()!.duration"
+          />
+        </div>
+      </div>
+    </form>
 
     <div footer class="an-flex an-w-full an-gap-3">
       <button class="an-button an-button--outline an-flex-fill" (click)="isDrawerOpen.set(false)">
         Cancelar
       </button>
-      <button class="an-button an-button--primary an-flex-fill" (click)="save()">Guardar</button>
+      <button class="an-button an-button--primary an-flex-fill" (click)="saveService()">
+        Guardar
+      </button>
     </div>
   </app-drawer>
 </div>

@@ -7,7 +7,6 @@ import { Component, effect, input, output } from '@angular/core';
   styleUrl: './drawer.component.scss',
 })
 export class AnDrawerComponent {
-  // Inputs con Signals
   title = input.required<string>();
   subtitle = input<string>('');
   isOpen = input.required<boolean>();
