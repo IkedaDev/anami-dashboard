@@ -7,13 +7,13 @@
       <h2 class="an-text--h2 an-m-0">Administración de Clientes</h2>
       <p class="an-text--light">Gestiona a tus clientes</p>
     </div>
-    <button class="an-button an-button--success">Nuevo Cliente</button>
+    <button class="an-button an-button--success" (click)="openNewClient()">Nuevo Cliente</button>
   </div>
 
   <div class="an-grid an-grid--responsive an-mb-7">
     <an-card-stats
       title="Total Clientes"
-      [value]="totalClients().toString()"
+      [value]="clients().length.toString()"
       icon="an-icon-user"
       trend="+12"
       trendDirection="up"
@@ -84,10 +84,78 @@
     </app-table>
   </section>
   <app-pagination
-    [totalItems]="totalClients()"
-    [pageSize]="20"
+    [totalItems]="clients().length"
+    [pageSize]="10"
     [currentPage]="page()"
-    (pageChange)="onPageChange($event)"
+    (pageChange)="page.set($event)"
   >
   </app-pagination>
+
+  <app-drawer [title]="drawerTitle()" [isOpen]="isDrawerOpen()" (close)="isDrawerOpen.set(false)">
+    <form [formGroup]="clientForm" class="an-flex an-flex-column an-gap-6">
+      <div class="an-field" [class.an-field--danger]="formUtils.isInvalidInput('fullName')">
+        <label class="an-field__label">Nombre Completo</label>
+        <input
+          type="text"
+          class="an-field__input"
+          formControlName="fullName"
+          placeholder="Ej: Ana María"
+        />
+      </div>
+
+      <div class="an-flex an-gap-4 an-w-full">
+        <div class="an-field an-w-50" [class.an-field--danger]="formUtils.isInvalidInput('rut')">
+          <label class="an-field__label">RUT</label>
+          <input
+            type="text"
+            class="an-field__input"
+            formControlName="rut"
+            placeholder="12.345.678-9"
+          />
+        </div>
+        <div class="an-field an-w-50">
+          <label class="an-field__label">Teléfono</label>
+          <input
+            type="text"
+            class="an-field__input"
+            formControlName="phone"
+            placeholder="+569..."
+          />
+        </div>
+      </div>
+
+      <div class="an-field">
+        <label class="an-field__label">Correo Electrónico</label>
+        <input
+          type="email"
+          class="an-field__input"
+          formControlName="email"
+          placeholder="correo@ejemplo.com"
+        />
+      </div>
+
+      <div class="an-field">
+        <label class="an-field__label">Dirección</label>
+        <input type="text" class="an-field__input" formControlName="address" />
+      </div>
+
+      <div class="an-field">
+        <label class="an-field__label">Notas / Alergias</label>
+        <textarea class="an-field__input" formControlName="notes" rows="3"></textarea>
+      </div>
+    </form>
+
+    <div footer class="an-flex an-w-full an-gap-3">
+      <button class="an-button an-button--outline an-flex-fill" (click)="isDrawerOpen.set(false)">
+        Cancelar
+      </button>
+      <button
+        class="an-button an-button--primary an-flex-fill"
+        (click)="saveClient()"
+        [disabled]="!formUtils.canSave()"
+      >
+        {{ clientService.selectedClient() ? 'Actualizar' : 'Guardar Cliente' }}
+      </button>
+    </div>
+  </app-drawer>
 </div>
