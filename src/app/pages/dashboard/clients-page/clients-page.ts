@@ -11,6 +11,14 @@ import { AnTemplateDirective } from '@directives/index';
 import { AnTableColumn, Client } from '@models/index';
 import { ClientService } from '@services/client/client';
 import { useFormUtils } from '@utils/form.utils';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { PaginatedResponse } from '@models/api';
+
+interface ClientsParams {
+  page: number;
+  limit: number;
+  q: string;
+}
 
 @Component({
   selector: 'app-clients-page',
@@ -47,6 +55,27 @@ export class ClientsPage {
   });
 
   public formUtils = useFormUtils(this.clientForm);
+
+  searchQuery = signal<string>('');
+  currentPage = signal<number>(1);
+  pageSize = signal<number>(10);
+
+  // El Recurso: Se refresca automáticamente cuando cambie cualquier señal en 'request'
+  clientsResource = rxResource<PaginatedResponse<Client>, ClientsParams>({
+    params: () => ({
+      page: this.currentPage(),
+      limit: this.pageSize(),
+      q: this.searchQuery(),
+    }),
+    stream: ({ params }) => {
+      return this.clientService.getPaginated(params.page, params.limit, params.q);
+    },
+  });
+
+  // Métodos para la UI
+  nextPage() {
+    this.currentPage.update((p) => p + 1);
+  }
 
   public columns = signal<AnTableColumn[]>([
     { key: 'fullName', label: 'Nombre Completo' },

@@ -22,7 +22,9 @@
       "@directives/*": ["./src/app/directives/*"],
       "@models/*": ["./src/app/models/*"],
       "@services/*": ["./src/app/services/*"],
-      "@utils/*": ["./src/app/utils/*"]
+      "@utils/*": ["./src/app/utils/*"],
+      "@enums/*": ["./src/app/enums/*"],
+      "@guards/*": ["./src/app/guards/*"]
     }
   },
   "angularCompilerOptions": {

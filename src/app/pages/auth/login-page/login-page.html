@@ -6,18 +6,14 @@
       <p class="an-text-muted">Ingresa tus credenciales para acceder al dashboard</p>
     </div>
 
-    <form class="login-form">
-      <div class="an-field">
-        <label for="email" class="an-label">Correo Electrónico</label>
-        <input
-          type="email"
-          id="email"
-          class="an-field__input"
-          placeholder="ejemplo@anami.com"
-          required
-        />
+    @if (errorMessage()) {
+      <div class="an-alert an-alert--error an-mb-4">
+        <i class="ph ph-warning-circle"></i>
+        <span>{{ errorMessage() }}</span>
       </div>
+    }
 
+    <form class="login-form" (submit)="$event.preventDefault(); handleLogin()">
       <div class="an-field">
         <label for="email" class="an-label">Correo Electrónico</label>
         <input
@@ -25,6 +21,8 @@
           id="email"
           class="an-field__input"
           placeholder="ejemplo@anami.com"
+          [value]="email()"
+          (input)="email.set($any($event.target).value)"
           required
         />
       </div>
@@ -36,13 +34,24 @@
           id="password"
           class="an-field__input"
           placeholder="••••••••"
+          [value]="password()"
+          (input)="password.set($any($event.target).value)"
           required
         />
       </div>
 
-      <div class="login-actions">
-        <button type="submit" class="an-button primary an-button--xl full-width">
-          Iniciar Sesión
+      <div class="login-actions an-mt-6">
+        <button
+          type="submit"
+          class="an-button an-button--primary an-button--xl full-width"
+          [disabled]="isLoading() || !email() || !password()"
+        >
+          @if (isLoading()) {
+            <span class="an-spinner"></span>
+            Verificando...
+          } @else {
+            Iniciar Sesión
+          }
         </button>
       </div>
     </form>
