@@ -13,7 +13,7 @@
   <div class="an-grid an-grid--responsive an-mb-7">
     <an-card-stats
       title="Total Clientes"
-      [value]="clients().length.toString()"
+      [value]="clientsResource.value()?.data?.length || 0"
       icon="an-icon-user"
       trend="+12"
       trendDirection="up"
@@ -33,7 +33,7 @@
     ></an-card-stats>
   </div>
   <section class="an-card">
-    <app-table [columns]="columns()" [data]="clients()">
+    <app-table [columns]="columns()" [data]="clientsResource.value()?.data || []">
       <ng-template anTemplate="rut" let-row>
         <code class="an-text--light">{{ row.rut || 'No registrado' }}</code>
       </ng-template>
@@ -82,14 +82,14 @@
         </div>
       </ng-template>
     </app-table>
+    <app-pagination
+      [totalItems]="clientsResource.value()?.meta?.total || 0"
+      [pageSize]="limit()"
+      [currentPage]="currentPage()"
+      (pageChange)="changePage($event)"
+    >
+    </app-pagination>
   </section>
-  <app-pagination
-    [totalItems]="clients().length"
-    [pageSize]="10"
-    [currentPage]="page()"
-    (pageChange)="page.set($event)"
-  >
-  </app-pagination>
 
   <app-drawer [title]="drawerTitle()" [isOpen]="isDrawerOpen()" (close)="isDrawerOpen.set(false)">
     <form [formGroup]="clientForm" class="an-flex an-flex-column an-gap-6">

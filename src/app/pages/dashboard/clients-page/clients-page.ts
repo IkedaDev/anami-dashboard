@@ -38,10 +38,8 @@ export class ClientsPage {
   private fb = inject(FormBuilder);
   public clientService = inject(ClientService);
 
-  public clients = this.clientService.get();
   public isDrawerOpen = signal(false);
   public drawerTitle = signal('Nuevo Cliente');
-  public page = signal(1);
 
   // Formulario con validaciones profesionales
   public clientForm = this.fb.group({
@@ -58,23 +56,22 @@ export class ClientsPage {
 
   searchQuery = signal<string>('');
   currentPage = signal<number>(1);
-  pageSize = signal<number>(10);
+  limit = signal<number>(6);
 
-  // El Recurso: Se refresca automáticamente cuando cambie cualquier señal en 'request'
-  clientsResource = rxResource<PaginatedResponse<Client>, ClientsParams>({
+  clientsResource = rxResource<
+    PaginatedResponse<Client>,
+    { page: number; limit: number; q: string }
+  >({
     params: () => ({
       page: this.currentPage(),
-      limit: this.pageSize(),
+      limit: this.limit(),
       q: this.searchQuery(),
     }),
-    stream: ({ params }) => {
-      return this.clientService.getPaginated(params.page, params.limit, params.q);
-    },
+    stream: ({ params }) => this.clientService.getPaginated(params.page, params.limit, params.q),
   });
 
-  // Métodos para la UI
-  nextPage() {
-    this.currentPage.update((p) => p + 1);
+  changePage(newPage: number) {
+    this.currentPage.set(newPage);
   }
 
   public columns = signal<AnTableColumn[]>([

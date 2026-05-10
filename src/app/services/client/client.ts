@@ -3,7 +3,7 @@ import { clientsFake } from '../../../data/mock-data';
 import { Client } from '@models/index';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { PaginatedResponse } from '@models/api';
+import { ApiResponse, PaginatedResponse } from '@models/api';
 
 @Injectable({
   providedIn: 'root',
@@ -38,5 +38,9 @@ export class ClientService {
     }
 
     console.log('IkedaDev Log: Creando nuevo cliente');
+  }
+
+  create(client: Partial<Client>) {
+    return this.http.post<ApiResponse<Client>>(this.URL, client);
   }
 }

@@ -1,4 +1,4 @@
-<table class="an-table">
+<table class="an-table an-w-full">
   <thead class="an-table__header">
     <tr>
       @for (col of columns(); track col.key) {
@@ -18,7 +18,6 @@
           }
         </tr>
       }
-
     } @else {
       @for (row of data(); track row.id || $index) {
         <tr class="an-table__row">
