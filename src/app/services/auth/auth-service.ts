@@ -1,9 +1,9 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { tap } from 'rxjs';
+import { catchError, Observable, of, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { AuthResponse, User } from '@models/api/auth.model';
+import { AuthResponse, LoginResponse, User } from '@models/api/auth.model';
 import { LOCAL_STORAGE } from '@enums/index';
 
 @Injectable({ providedIn: 'root' })
@@ -14,14 +14,26 @@ export class AuthService {
 
   currentUser = signal<User | null>(this.getUserFromStorage());
 
-  login(email: string, password: string) {
+  login(email: string, password: string): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.URL}/login`, { email, password }).pipe(
       tap((response) => {
         if (response.success) {
-          localStorage.setItem(LOCAL_STORAGE.TOKEN, response.data.token);
-          localStorage.setItem(LOCAL_STORAGE.USER, JSON.stringify(response.data.user));
-          this.currentUser.set(response.data.user);
+          this.setSession(response.data);
         }
+      }),
+    );
+  }
+
+  renew() {
+    return this.http.get<AuthResponse>(`${this.URL}/renew`).pipe(
+      tap((response) => {
+        if (response.success) {
+          this.setSession(response.data);
+        }
+      }),
+      catchError(() => {
+        this.logout();
+        return of(false);
       }),
     );
   }
@@ -40,5 +52,10 @@ export class AuthService {
   private getUserFromStorage(): User | null {
     const user = localStorage.getItem(LOCAL_STORAGE.USER);
     return user ? JSON.parse(user) : null;
+  }
+  private setSession(loginResponse: LoginResponse) {
+    localStorage.setItem(LOCAL_STORAGE.TOKEN, loginResponse.token);
+    localStorage.setItem(LOCAL_STORAGE.USER, JSON.stringify(loginResponse.user));
+    this.currentUser.set(loginResponse.user);
   }
 }
