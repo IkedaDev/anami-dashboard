@@ -1,13 +1,13 @@
 <div class="an-container an-py-6">
-  <div
-    class="an-flex an-justify-between an-align-center an-mb-6"
-    style="display: flex; justify-content: space-between; align-items: center"
-  >
+  <div class="an-flex an-justify-between an-align-center an-mb-6 title-section">
     <div>
       <h2 class="an-text--h2 an-m-0">Administración de Clientes</h2>
       <p class="an-text--light">Gestiona a tus clientes</p>
     </div>
-    <button class="an-button an-button--success" (click)="openNewClient()">Nuevo Cliente</button>
+    <button class="an-button an-button--success" (click)="openNewClient()">
+      <an-icon name="user-add-line"></an-icon>
+      Nuevo Cliente
+    </button>
   </div>
 
   <div class="an-grid an-grid--responsive an-mb-7">
@@ -33,7 +33,11 @@
     ></an-card-stats>
   </div>
   <section class="an-card">
-    <app-table [columns]="columns()" [data]="clientsResource.value()?.data || []">
+    <app-table
+      [columns]="columns()"
+      [data]="clientsResource.value()?.data || []"
+      [loading]="clientsResource.isLoading()"
+    >
       <ng-template anTemplate="rut" let-row>
         <code class="an-text--light">{{ row.rut || 'No registrado' }}</code>
       </ng-template>
@@ -50,34 +54,16 @@
       </ng-template>
 
       <ng-template anTemplate="actions" let-row>
-        <div style="display: flex; gap: 0.8rem">
-          <button class="an-button an-button--sm" (click)="handleEdit(row)" title="Editar">
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-            </svg>
+        <div class="table-btns">
+          <button
+            class="an-button an-button--warning an-button--sm"
+            (click)="handleEdit(row)"
+            title="Editar"
+          >
+            <an-icon name="pencil-line"></an-icon>
           </button>
           <button class="an-button an-button--danger an-button--sm" title="Eliminar">
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <polyline points="3 6 5 6 21 6"></polyline>
-              <path
-                d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
-              ></path>
-            </svg>
+            <an-icon name="delete-bin-7-line"></an-icon>
           </button>
         </div>
       </ng-template>

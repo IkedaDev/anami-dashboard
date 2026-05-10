@@ -6,6 +6,7 @@ import {
   AnTableComponent,
   AnPaginationComponent,
   AnDrawerComponent,
+  AnIconComponent,
 } from '@components/index';
 import { AnTemplateDirective } from '@directives/index';
 import { AnTableColumn, Client } from '@models/index';
@@ -13,12 +14,6 @@ import { ClientService } from '@services/client/client';
 import { useFormUtils } from '@utils/form.utils';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { PaginatedResponse } from '@models/api';
-
-interface ClientsParams {
-  page: number;
-  limit: number;
-  q: string;
-}
 
 @Component({
   selector: 'app-clients-page',
@@ -30,6 +25,7 @@ interface ClientsParams {
     AnTemplateDirective,
     AnPaginationComponent,
     AnCardStatsComponent,
+    AnIconComponent,
   ],
   templateUrl: './clients-page.html',
   styleUrl: './clients-page.scss',
