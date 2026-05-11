@@ -1,25 +1,14 @@
-import { Component, effect, input, output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { DrawerService } from '@services/drawer/drawer.service';
+import { AnIconComponent } from '@components/icon/icon.component';
 
 @Component({
-  selector: 'app-drawer',
-  imports: [],
+  selector: 'app-drawer-container',
+  imports: [CommonModule, AnIconComponent],
   templateUrl: './drawer.component.html',
   styleUrl: './drawer.component.scss',
 })
-export class AnDrawerComponent {
-  title = input.required<string>();
-  subtitle = input<string>('');
-  isOpen = input.required<boolean>();
-
-  // Evento de cierre
-  close = output<void>();
-
-  // Manejo de scroll del body para que no se mueva al estar abierto el drawer
-  private lockScroll = effect(() => {
-    if (this.isOpen()) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
-  });
+export class DrawerContainer {
+  public drawer = inject(DrawerService);
 }

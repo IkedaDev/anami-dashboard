@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
-import { AnCardStatsComponent, AnDrawerComponent, AnPaginationComponent } from '@components/index';
+import { AnCardStatsComponent, AnPaginationComponent } from '@components/index';
 import { AnTableComponent } from '@components/index';
 import { AnTemplateDirective } from '@directives/an-template.directive';
 import { Service, AnTableColumn } from '@models/index';
@@ -12,7 +12,6 @@ import { useFormUtils } from '@utils/index';
   selector: 'app-services-page',
   standalone: true,
   imports: [
-    AnDrawerComponent,
     AnTableComponent,
     CommonModule,
     AnTemplateDirective,
