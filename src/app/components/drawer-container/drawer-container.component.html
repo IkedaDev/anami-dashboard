@@ -1,0 +1,21 @@
+<div class="an-drawer-overlay" [class.is-open]="drawer.config()" (click)="drawer.close()"></div>
+
+<aside class="an-drawer" [class.is-open]="drawer.config()" (click)="$event.stopPropagation()">
+  @if (drawer.config(); as cfg) {
+    <header class="an-drawer__header">
+      <div class="an-flex an-flex-column">
+        <h3 class="an-text--h3 an-m-0">{{ cfg.title }}</h3>
+        @if (cfg.subtitle) {
+          <small class="an-text--light">{{ cfg.subtitle }}</small>
+        }
+      </div>
+      <button class="an-button an-button--sm" (click)="drawer.close()">
+        <an-icon name="close-line" />
+      </button>
+    </header>
+
+    <div class="an-drawer__body">
+      <ng-container *ngComponentOutlet="cfg.component; inputs: { data: cfg.data }" />
+    </div>
+  }
+</aside>
