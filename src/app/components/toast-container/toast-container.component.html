@@ -1,0 +1,30 @@
+<div class="an-toast-container">
+  @for (toast of toastService.toasts(); track toast.id) {
+    <div class="an-toast" [ngClass]="'an-toast--' + toast.type">
+      <div class="an-toast__icon">
+        @switch (toast.type) {
+          @case ('success') {
+            <an-icon name="check-line" [size]="22" />
+          }
+          @case ('error') {
+            <an-icon name="error-warning-line" [size]="22" />
+          }
+          @case ('warning') {
+            <an-icon name="alert-line" [size]="22" />
+          }
+          @case ('info') {
+            <an-icon name="information-line" [size]="22" />
+          }
+        }
+      </div>
+
+      <div class="an-toast__content">
+        {{ toast.message }}
+      </div>
+
+      <button class="an-toast__close" (click)="toastService.remove(toast.id)">
+        <an-icon name="close-line" />
+      </button>
+    </div>
+  }
+</div>

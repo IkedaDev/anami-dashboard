@@ -62,7 +62,11 @@
           >
             <an-icon name="pencil-line"></an-icon>
           </button>
-          <button class="an-button an-button--danger an-button--sm" title="Eliminar">
+          <button
+            class="an-button an-button--danger an-button--sm"
+            title="Eliminar"
+            (click)="handleDelete(row)"
+          >
             <an-icon name="delete-bin-7-line"></an-icon>
           </button>
         </div>

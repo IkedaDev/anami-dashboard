@@ -13,7 +13,7 @@ import { AnTableColumn, Client } from '@models/index';
 import { ClientService } from '@services/client/client';
 import { useFormUtils } from '@utils/form.utils';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { PaginatedResponse } from '@models/api';
+import { ToastService } from '@services/index';
 
 @Component({
   selector: 'app-clients-page',
@@ -33,11 +33,12 @@ import { PaginatedResponse } from '@models/api';
 export class ClientsPage {
   private fb = inject(FormBuilder);
   public clientService = inject(ClientService);
-
   public isDrawerOpen = signal(false);
   public drawerTitle = signal('Nuevo Cliente');
+  public searchQuery = signal<string>('');
+  public currentPage = signal<number>(1);
+  public limit = signal<number>(6);
 
-  // Formulario con validaciones profesionales
   public clientForm = this.fb.group({
     id: [''],
     fullName: ['', [Validators.required, Validators.minLength(3)]],
@@ -50,14 +51,7 @@ export class ClientsPage {
 
   public formUtils = useFormUtils(this.clientForm);
 
-  searchQuery = signal<string>('');
-  currentPage = signal<number>(1);
-  limit = signal<number>(6);
-
-  clientsResource = rxResource<
-    PaginatedResponse<Client>,
-    { page: number; limit: number; q: string }
-  >({
+  clientsResource = rxResource({
     params: () => ({
       page: this.currentPage(),
       limit: this.limit(),
@@ -78,6 +72,8 @@ export class ClientsPage {
     { key: 'actions', label: 'Acciones' },
   ]);
 
+  private toast = inject(ToastService);
+
   openNewClient() {
     this.clientService.selectedClient.set(null);
     this.clientForm.reset();
@@ -90,6 +86,10 @@ export class ClientsPage {
     this.clientForm.patchValue(client);
     this.drawerTitle.set('Editar Cliente');
     this.isDrawerOpen.set(true);
+  }
+
+  handleDelete(client: Client) {
+    this.toast.show(`${client.fullName} se ha eliminado`, 'success');
   }
 
   saveClient() {
