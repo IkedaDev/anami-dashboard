@@ -1,6 +1,6 @@
 import { Component, ContentChildren, input, QueryList } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AnTableColumn } from '@models/table.model';
+import { AnTableColumn } from '@models/components/table.model';
 import { AnTemplateDirective } from '@directives/index';
 
 @Component({

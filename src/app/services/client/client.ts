@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { clientsFake } from '../../../data/mock-data';
-import { Client } from '@models/index';
+import { Client } from '@models/business/index';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ApiResponse, PaginatedResponse } from '@models/api';

@@ -1,4 +1,4 @@
-import { Service, Client } from '@models/index';
+import { Service, Client } from '@models/business/index';
 
 export const clientsFake: Client[] = [
   {

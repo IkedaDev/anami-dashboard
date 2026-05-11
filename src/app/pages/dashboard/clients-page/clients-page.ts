@@ -8,7 +8,8 @@ import {
   AnIconComponent,
 } from '@components/index';
 import { AnTemplateDirective } from '@directives/index';
-import { AnTableColumn, Client } from '@models/index';
+import { Client } from '@models/business/index';
+import { AnTableColumn } from '@models/components';
 import { ClientService } from '@services/client/client';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { ToastService } from '@services/index';

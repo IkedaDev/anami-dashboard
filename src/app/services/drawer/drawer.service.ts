@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { DrawerConfig } from '@models/index';
+import { DrawerConfig } from '@models/components';
 
 @Injectable({ providedIn: 'root' })
 export class DrawerService {

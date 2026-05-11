@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { Service } from '@models/service.model';
+import { Service } from '@models/business/service.model';
 import { servicesFake } from '../../../data/mock-data';
 
 @Injectable({

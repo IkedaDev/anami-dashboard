@@ -2,8 +2,8 @@ import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import { AnTableComponent, AnPaginationComponent, AnCardStatsComponent } from '@components/index';
 import { AnTemplateDirective } from '@directives/an-template.directive';
-import { Appointment } from '@models/appoinment.model';
-import { AnTableColumn } from '@models/table.model';
+import { Appointment } from '@models/business/appoinment.model';
+import { AnTableColumn } from '@models/components/table.model';
 
 @Component({
   selector: 'app-appointments-page',

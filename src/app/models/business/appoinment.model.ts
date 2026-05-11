@@ -1,4 +1,4 @@
-import { Client } from './client.model';
+import { Client } from '../client.model';
 
 export interface Appointment {
   id: string;
