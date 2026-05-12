@@ -1,8 +1,9 @@
-import { Component, inject, input, OnInit } from '@angular/core';
+import { Component, inject, input, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Client } from '@models/business/index';
-import { ClientService, DrawerService } from '@services/index';
+import { ClientService, DrawerService, ToastService } from '@services/index';
 import { useFormUtils } from '@utils/form.utils';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-client-form',
@@ -13,13 +14,13 @@ import { useFormUtils } from '@utils/form.utils';
 export class ClientForm implements OnInit {
   private fb = inject(FormBuilder);
   public clientService = inject(ClientService);
+  public toast = inject(ToastService);
   public drawer = inject(DrawerService);
   public data = input();
-
+  public isSaving = signal(false);
   public clientForm = this.fb.group({
-    id: [''],
     name: ['', [Validators.required, Validators.minLength(3)]],
-    rut: ['', [Validators.required]],
+    rut: ['', []],
     email: ['', [Validators.email]],
     phone: [''],
     address: [''],
@@ -40,7 +41,19 @@ export class ClientForm implements OnInit {
       return;
     }
     const formData = this.clientForm.getRawValue() as Client;
-    this.clientService.selectedClient.set(formData);
-    this.clientService.save();
+
+    const request$ = this.clientService.selectedClient()
+      ? this.clientService.update(this.clientService.selectedClient()!.id, formData)
+      : this.clientService.create(formData);
+
+    this.isSaving.set(true);
+
+    request$
+      .pipe(
+        finalize(() => this.isSaving.set(false)), // Se apaga la carga falle o no
+      )
+      .subscribe({
+        next: () => this.drawer.close(),
+      });
   }
 }

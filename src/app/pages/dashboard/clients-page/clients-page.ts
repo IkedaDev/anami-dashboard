@@ -10,11 +10,12 @@ import {
 import { AnTemplateDirective } from '@directives/index';
 import { Client } from '@models/business/index';
 import { AnTableColumn } from '@models/components';
-import { ClientService } from '@services/client/client';
+import { ClientService } from '@services/client/client.service';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { ToastService } from '@services/index';
 import { DrawerService } from '@services/drawer/drawer.service';
 import { ClientForm } from './client-form/client-form';
+import { SearchQuery } from '@models/api/index';
+import { ClientFindByRequest } from '@models/api/client-api.model';
 
 @Component({
   selector: 'app-clients-page',
@@ -33,25 +34,17 @@ import { ClientForm } from './client-form/client-form';
 export class ClientsPage {
   public clientService = inject(ClientService);
   public drawerService = inject(DrawerService);
-  private toast = inject(ToastService);
-  public searchQuery = signal<string>('');
-  public currentPage = signal<number>(1);
-  public limit = signal<number>(6);
+  public searchQuery = signal<SearchQuery<ClientFindByRequest>>(
+    new SearchQuery({ limit: 6, page: 1 }),
+  );
 
   clientsResource = rxResource({
-    params: () => ({
-      page: this.currentPage(),
-      limit: this.limit(),
-      q: this.searchQuery(),
-    }),
-    stream: ({ params }) =>
-      this.clientService.getPaginated({
-        params: { page: params.page, limit: params.limit },
-      }),
+    params: () => this.searchQuery(),
+    stream: ({ params }) => this.clientService.getPaginated(params),
   });
 
-  changePage(newPage: number) {
-    this.currentPage.set(newPage);
+  changePage(page: number) {
+    this.searchQuery.update((c) => c.clone({ page }));
   }
 
   public columns = signal<AnTableColumn[]>([
@@ -76,6 +69,8 @@ export class ClientsPage {
   }
 
   handleDelete(client: Client) {
-    this.toast.show(`${client.name} se ha eliminado`, 'success');
+    this.clientService.delete(client.id).subscribe();
   }
+
+  handleView(client: Client) {}
 }

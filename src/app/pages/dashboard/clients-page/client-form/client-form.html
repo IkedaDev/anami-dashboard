@@ -43,7 +43,7 @@
   <button
     class="an-button an-button--primary an-flex-fill"
     (click)="saveClient()"
-    [disabled]="!formUtils.canSave()"
+    [disabled]="!formUtils.canSave() || isSaving()"
   >
     {{ clientService.selectedClient() ? 'Actualizar' : 'Guardar Cliente' }}
   </button>

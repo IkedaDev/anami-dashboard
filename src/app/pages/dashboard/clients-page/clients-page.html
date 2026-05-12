@@ -13,7 +13,7 @@
   <div class="an-grid an-grid--responsive an-mb-7">
     <an-card-stats
       title="Total Clientes"
-      [value]="clientsResource.value()?.data?.length || 0"
+      [value]="clientsResource.value()?.meta?.total || 0"
       icon="an-icon-user"
       trend="+12"
       trendDirection="up"
@@ -32,7 +32,6 @@
       trendDirection="up"
     ></an-card-stats>
   </div>
-  {{ clientsResource.isLoading() | json }}
   <section class="an-card">
     <app-table
       [columns]="columns()"
@@ -64,20 +63,28 @@
             <an-icon name="pencil-line"></an-icon>
             Editar
           </button>
-          <!-- <button
+          <button
+            class="an-button an-button--info an-button--sm"
+            title="Ver más"
+            (click)="handleView(row)"
+          >
+            Ver más
+            <an-icon name="booklet-line"></an-icon>
+          </button>
+          <button
             class="an-button an-button--danger an-button--sm"
             title="Eliminar"
             (click)="handleDelete(row)"
           >
-            <an-icon name="delete-bin-7-line"></an-icon>
-          </button> -->
+            <an-icon name="delete-bin-6-line"></an-icon>
+          </button>
         </div>
       </ng-template>
     </app-table>
     <app-pagination
       [totalItems]="clientsResource.value()?.meta?.total || 0"
-      [pageSize]="limit()"
-      [currentPage]="currentPage()"
+      [pageSize]="searchQuery().limit"
+      [currentPage]="searchQuery().page"
       (pageChange)="changePage($event)"
     >
     </app-pagination>
