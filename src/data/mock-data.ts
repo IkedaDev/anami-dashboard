@@ -3,7 +3,7 @@ import { Service, Client } from '@models/business/index';
 export const clientsFake: Client[] = [
   {
     id: '0vic6sjo1lhksxadts6462',
-    fullName: 'Sebastian Ikeda',
+    name: 'Sebastian Ikeda',
     rut: '19.158.143-1',
     email: 's.ikeda@anami.com',
     phone: '+56912345678',
@@ -12,7 +12,7 @@ export const clientsFake: Client[] = [
   },
   {
     id: 'u928js82js82js82js82',
-    fullName: 'Ana María',
+    name: 'Ana María',
     rut: '12.345.678-9',
     email: 'ana.m@gmail.com',
     phone: '+56987654321',
@@ -21,7 +21,7 @@ export const clientsFake: Client[] = [
   },
   {
     id: 'k82hs91js02ls73ks92l',
-    fullName: 'Carlos Pérez Soto',
+    name: 'Carlos Pérez Soto',
     rut: '15.678.901-2',
     email: 'carlos.perez@yahoo.com',
     phone: '+56955544433',
@@ -30,7 +30,7 @@ export const clientsFake: Client[] = [
   },
   {
     id: 'p02js82ms92ls72ks82j',
-    fullName: 'María José Valenzuela',
+    name: 'María José Valenzuela',
     rut: '18.234.567-K',
     email: 'mj.valenzuela@outlook.cl',
     phone: '+56922233344',
@@ -38,7 +38,7 @@ export const clientsFake: Client[] = [
   },
   {
     id: 'z92js82js82js82js82a',
-    fullName: 'Roberto Gómez Bolaños',
+    name: 'Roberto Gómez Bolaños',
     rut: '10.111.222-3',
     email: 'chespirito@vecindad.com',
     phone: '+56977788899',
@@ -47,7 +47,7 @@ export const clientsFake: Client[] = [
   },
   {
     id: 'q12ws34ed56rf78tg90h',
-    fullName: 'Francisca Javiera Aranda',
+    name: 'Francisca Javiera Aranda',
     rut: '20.456.789-0',
     email: 'fran.aranda@gmail.com',
     phone: '+56966655544',
@@ -56,7 +56,7 @@ export const clientsFake: Client[] = [
   },
   {
     id: 'a98sh21js02ls73ks92p',
-    fullName: 'Ignacio Tagle de la Cruz',
+    name: 'Ignacio Tagle de la Cruz',
     rut: '14.555.666-7',
     email: 'i.tagle@empresa.cl',
     phone: '+56999911122',
@@ -65,7 +65,7 @@ export const clientsFake: Client[] = [
   },
   {
     id: 'b72hs91js02ls73ks92x',
-    fullName: 'Valentina Rose Rosselot',
+    name: 'Valentina Rose Rosselot',
     rut: '22.333.444-5',
     email: 'v.rose@estudiantes.uai.cl',
     phone: '+56988877766',
@@ -73,7 +73,7 @@ export const clientsFake: Client[] = [
   },
   {
     id: 'c52js82ms92ls72ks82q',
-    fullName: 'Héctor Manuel Tapia',
+    name: 'Héctor Manuel Tapia',
     rut: '9.888.777-6',
     email: 'h.tapia.entrenador@gmail.com',
     phone: '+56944455566',
@@ -82,7 +82,7 @@ export const clientsFake: Client[] = [
   },
   {
     id: 'd12js82js82js82js82m',
-    fullName: 'Loreto Paz Mondaca',
+    name: 'Loreto Paz Mondaca',
     rut: '16.777.888-9',
     email: 'lore.mondaca@anami.cl',
     phone: '+56933322211',
@@ -91,7 +91,7 @@ export const clientsFake: Client[] = [
   },
   {
     id: 'e32hs91js02ls73ks92w',
-    fullName: 'Andrés Bello López',
+    name: 'Andrés Bello López',
     rut: '11.222.333-4',
     email: 'a.bello@universidad.cl',
     phone: '+56955511100',
@@ -99,7 +99,7 @@ export const clientsFake: Client[] = [
   },
   {
     id: 'f92js82ms92ls72ks82t',
-    fullName: 'Camila Inés Orellana',
+    name: 'Camila Inés Orellana',
     rut: '21.999.000-1',
     email: 'cami.ore@outlook.com',
     phone: '+56911199988',
@@ -108,7 +108,7 @@ export const clientsFake: Client[] = [
   },
   {
     id: 'g42js82js82js82js82k',
-    fullName: 'Patricio Rey Acevedo',
+    name: 'Patricio Rey Acevedo',
     rut: '13.444.555-6',
     email: 'indio.solari@redondos.ar',
     phone: '+56966600011',
@@ -116,7 +116,7 @@ export const clientsFake: Client[] = [
   },
   {
     id: 'h62hs91js02ls73ks92r',
-    fullName: 'Dominique Gisselle Lattore',
+    name: 'Dominique Gisselle Lattore',
     rut: '17.666.555-4',
     email: 'domi.lat@gmail.com',
     phone: '+56944477722',
@@ -125,7 +125,7 @@ export const clientsFake: Client[] = [
   },
   {
     id: 'i82js82ms92ls72ks82v',
-    fullName: 'Esteban Paredes Quintanilla',
+    name: 'Esteban Paredes Quintanilla',
     rut: '14.123.456-7',
     email: 'el.tanque@colocolo.cl',
     phone: '+56973003030',

@@ -4,6 +4,7 @@ import { Client } from '@models/business/index';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ApiResponse, PaginatedResponse } from '@models/api';
+import { ClientFindByRequest } from '@models/api/client-api.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,12 +16,18 @@ export class ClientService {
   public clients = signal<Client[]>(clientsFake);
   public selectedClient = signal<Client | null>(null);
 
-  getPaginated(page: number, limit: number, q?: string) {
-    let params = new HttpParams().set('page', page.toString()).set('limit', limit.toString());
+  getPaginated(req: ClientFindByRequest) {
+    let params = new HttpParams()
+      .set('page', req.params.page.toString())
+      .set('limit', req.params.limit.toString());
 
-    if (q) params = params.set('q', q);
-
-    return this.http.get<PaginatedResponse<Client>>(`${this.URL}/paginated`, { params });
+    return this.http.post<PaginatedResponse<Client>>(
+      `${this.URL}/paginated`,
+      {
+        body: req.body,
+      },
+      { params },
+    );
   }
 
   get() {

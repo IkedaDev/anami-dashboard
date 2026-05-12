@@ -18,7 +18,7 @@ export class ClientForm implements OnInit {
 
   public clientForm = this.fb.group({
     id: [''],
-    fullName: ['', [Validators.required, Validators.minLength(3)]],
+    name: ['', [Validators.required, Validators.minLength(3)]],
     rut: ['', [Validators.required]],
     email: ['', [Validators.email]],
     phone: [''],

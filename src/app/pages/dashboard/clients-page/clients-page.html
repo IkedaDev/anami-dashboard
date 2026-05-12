@@ -32,6 +32,7 @@
       trendDirection="up"
     ></an-card-stats>
   </div>
+  {{ clientsResource.isLoading() | json }}
   <section class="an-card">
     <app-table
       [columns]="columns()"
@@ -61,14 +62,15 @@
             title="Editar"
           >
             <an-icon name="pencil-line"></an-icon>
+            Editar
           </button>
-          <button
+          <!-- <button
             class="an-button an-button--danger an-button--sm"
             title="Eliminar"
             (click)="handleDelete(row)"
           >
             <an-icon name="delete-bin-7-line"></an-icon>
-          </button>
+          </button> -->
         </div>
       </ng-template>
     </app-table>

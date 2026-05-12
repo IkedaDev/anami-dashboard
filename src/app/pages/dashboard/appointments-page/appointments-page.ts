@@ -42,7 +42,7 @@ export class AppointmentsPage {
       clientId: 'cli-ikeda',
       client: {
         id: 'cli-ikeda',
-        fullName: 'Sebastian Ikeda',
+        name: 'Sebastian Ikeda',
         phone: '+56912345678',
         email: 's.ikeda@anami.com',
       },
@@ -63,7 +63,7 @@ export class AppointmentsPage {
       clientId: 'cli-ana',
       client: {
         id: 'cli-ana',
-        fullName: 'Ana María',
+        name: 'Ana María',
         phone: '+56987654321',
         email: 'ana.m@gmail.com',
       },

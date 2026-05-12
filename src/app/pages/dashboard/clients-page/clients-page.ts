@@ -44,7 +44,10 @@ export class ClientsPage {
       limit: this.limit(),
       q: this.searchQuery(),
     }),
-    stream: ({ params }) => this.clientService.getPaginated(params.page, params.limit, params.q),
+    stream: ({ params }) =>
+      this.clientService.getPaginated({
+        params: { page: params.page, limit: params.limit },
+      }),
   });
 
   changePage(newPage: number) {
@@ -52,7 +55,7 @@ export class ClientsPage {
   }
 
   public columns = signal<AnTableColumn[]>([
-    { key: 'fullName', label: 'Nombre Completo' },
+    { key: 'name', label: 'Nombre Completo' },
     { key: 'rut', label: 'RUT' },
     { key: 'email', label: 'Correo' },
     { key: 'phone', label: 'Teléfono' },
@@ -73,6 +76,6 @@ export class ClientsPage {
   }
 
   handleDelete(client: Client) {
-    this.toast.show(`${client.fullName} se ha eliminado`, 'success');
+    this.toast.show(`${client.name} se ha eliminado`, 'success');
   }
 }

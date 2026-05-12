@@ -1,12 +1,7 @@
 <form [formGroup]="clientForm" class="an-flex an-flex-column an-gap-6">
-  <div class="an-field" [class.an-field--danger]="formUtils.isInvalidInput('fullName')">
+  <div class="an-field" [class.an-field--danger]="formUtils.isInvalidInput('name')">
     <label class="an-field__label">Nombre Completo</label>
-    <input
-      type="text"
-      class="an-field__input"
-      formControlName="fullName"
-      placeholder="Ej: Ana María"
-    />
+    <input type="text" class="an-field__input" formControlName="name" placeholder="Ej: Ana María" />
   </div>
 
   <div class="an-flex an-gap-4 an-w-full">
