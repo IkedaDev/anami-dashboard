@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModalService } from '@services/modal/modal.service';
+import { AnIconComponent } from '@components/icon/icon.component';
 
 @Component({
   selector: 'app-modal',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, AnIconComponent],
   template: `
     @for (modal of modalService.activeModals(); track modal.id; let i = $index) {
       <div
@@ -16,13 +17,13 @@ import { ModalService } from '@services/modal/modal.service';
       >
         <div class="an-modal" [class]="'--' + modal.size" (click)="$event.stopPropagation()">
           <header class="an-modal__header" [class.--sm]="modal.size == 'sm'">
-            <h3 class="an-text--h3 an-m-0">{{ modal.title }}</h3>
+            <h3 class="an-text--h4 an-m-0">{{ modal.title }}</h3>
             <button
-              class="an-button"
+              class="an-button "
               [class.an-button--sm]="modal.size == 'sm'"
               (click)="modalService.close(modal.id)"
             >
-              ✕
+              <an-icon name="close-line" />
             </button>
           </header>
 
