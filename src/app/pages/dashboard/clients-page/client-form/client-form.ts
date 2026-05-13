@@ -1,7 +1,7 @@
 import { Component, inject, input, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Client } from '@models/business/index';
-import { ClientService, DrawerService, ToastService } from '@services/index';
+import { ClientPageService, DrawerService, ToastService } from '@services/index';
 import { useFormUtils } from '@utils/form.utils';
 import { finalize } from 'rxjs';
 import { NoteEditorComponent } from '@components/note-editor/note-editor.component';
@@ -14,15 +14,16 @@ import { NoteEditorComponent } from '@components/note-editor/note-editor.compone
 })
 export class ClientForm implements OnInit {
   private fb = inject(FormBuilder);
-  public clientService = inject(ClientService);
+  public clientService = inject(ClientPageService);
   public toast = inject(ToastService);
   public drawer = inject(DrawerService);
   public data = input();
   public isSaving = signal(false);
+
   public clientForm = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(3)]],
     rut: ['', []],
-    email: ['', [Validators.email]],
+    email: ['', []],
     phone: [''],
     address: [''],
     notes: ['', [Validators.maxLength(300)]],

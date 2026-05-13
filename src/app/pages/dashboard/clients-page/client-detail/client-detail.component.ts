@@ -1,11 +1,12 @@
 import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Client } from '@models/business/client.model';
+import { NoteEditorComponent } from '@components/note-editor/note-editor.component';
 
 @Component({
   selector: 'app-client-detail',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NoteEditorComponent],
   styleUrl: './client.detail.component.scss',
   template: `
     <div class="client-detail">
@@ -41,7 +42,8 @@ import { Client } from '@models/business/client.model';
         </section>
         <section>
           <h4 class="an-text--h4 an-mb-3">Notas</h4>
-          <p class="an-text--body">{{ client().notes || 'No registrado' }}</p>
+          <!-- <p class="an-text--body">{{ client().notes || 'No registrado' }}</p> -->
+          <app-note-editor [onlyView]="true" [initialContent]="client().notes || ''" />
         </section>
       </div>
     </div>

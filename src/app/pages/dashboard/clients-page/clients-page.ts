@@ -10,14 +10,11 @@ import {
 import { AnTemplateDirective } from '@directives/index';
 import { Client } from '@models/business/index';
 import { AnTableColumn } from '@models/components';
-import { ClientService } from '@services/client/client.service';
-import { rxResource } from '@angular/core/rxjs-interop';
 import { DrawerService } from '@services/drawer/drawer.service';
 import { ClientForm } from './client-form/client-form';
-import { SearchQuery } from '@models/api/index';
-import { ClientFindByRequest } from '@models/api/client-api.model';
 import { ModalService } from '@services/modal/modal.service';
 import { ClientDetailComponent } from './client-detail/client-detail.component';
+import { ClientPageService } from '@services/index';
 
 @Component({
   selector: 'app-clients-page',
@@ -34,21 +31,13 @@ import { ClientDetailComponent } from './client-detail/client-detail.component';
   styleUrl: './clients-page.scss',
 })
 export class ClientsPage {
-  public clientService = inject(ClientService);
+  public clientPageService = inject(ClientPageService);
   public drawerService = inject(DrawerService);
   public modalService = inject(ModalService);
-  public searchQuery = signal<SearchQuery<ClientFindByRequest>>(
-    new SearchQuery({ limit: 6, page: 1 }),
-  );
 
-  clientsResource = rxResource({
-    params: () => this.searchQuery(),
-    stream: ({ params }) => this.clientService.getPaginated(params),
-  });
-
-  changePage(page: number) {
-    this.searchQuery.update((c) => c.clone({ page }));
-  }
+  public clientsResource = this.clientPageService.clientsResource;
+  public searchQuery = this.clientPageService.searchQuery;
+  public changePage = this.clientPageService.changePage;
 
   public columns = signal<AnTableColumn[]>([
     { key: 'name', label: 'Nombre Completo' },
@@ -59,12 +48,12 @@ export class ClientsPage {
   ]);
 
   openNewClient() {
-    this.clientService.selectedClient.set(null);
+    this.clientPageService.selectedClient.set(null);
     this.drawerService.open({ title: 'Nuevo Cliente', component: ClientForm });
   }
 
   handleEdit(client: Client) {
-    this.clientService.selectedClient.set({ ...client });
+    this.clientPageService.selectedClient.set({ ...client });
     this.drawerService.open({
       title: 'Editar Cliente',
       component: ClientForm,
@@ -72,18 +61,7 @@ export class ClientsPage {
   }
 
   async handleDelete(client: Client) {
-    const confirmed = await this.modalService.openConfirm({
-      title: 'Eliminar Cliente',
-      message: `¿Estás seguro de borrar a ${client.name}?`,
-      confirmText: 'Sí, borrar',
-      cancelText: 'No, mantener',
-    });
-
-    if (confirmed) {
-      this.clientService.delete(client.id).subscribe({
-        next: () => this.clientsResource.reload(),
-      });
-    }
+    this.clientPageService.handleDelete(client);
   }
 
   handleView(client: Client) {

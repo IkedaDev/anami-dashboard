@@ -1,6 +1,7 @@
 <div
   class="an-note-editor"
   [class.--disabled]="disabled()"
+  [class.--only-view]="onlyView()"
   [class.--preview]="mode() === 'preview'"
 >
   @if (!onlyView()) {
