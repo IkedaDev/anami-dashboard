@@ -1,0 +1,44 @@
+<div
+  class="an-note-editor"
+  [class.--disabled]="disabled()"
+  [class.--preview]="mode() === 'preview'"
+>
+  @if (!onlyView()) {
+    <header class="an-note-editor__header">
+      <div class="an-note-editor__tabs">
+        <button
+          type="button"
+          class="an-note-tab"
+          [class.--active]="mode() === 'edit'"
+          (click)="mode.set('edit')"
+        >
+          Editar
+        </button>
+        <button
+          type="button"
+          class="an-note-tab"
+          [class.--active]="mode() === 'preview'"
+          (click)="mode.set('preview')"
+        >
+          Vista Previa
+        </button>
+      </div>
+    </header>
+  }
+  <div class="an-note-editor__body">
+    @if (mode() === 'edit' && !onlyView()) {
+      <textarea
+        class="an-note-textarea"
+        [ngModel]="content"
+        (ngModelChange)="onModelChange($event)"
+        (blur)="onTouched()"
+        [disabled]="disabled()"
+        placeholder="Escribe en Markdown aquí..."
+      ></textarea>
+    } @else {
+      <div class="an-note-preview">
+        <markdown [data]="content"></markdown>
+      </div>
+    }
+  </div>
+</div>

@@ -4,10 +4,11 @@ import { Client } from '@models/business/index';
 import { ClientService, DrawerService, ToastService } from '@services/index';
 import { useFormUtils } from '@utils/form.utils';
 import { finalize } from 'rxjs';
+import { NoteEditorComponent } from '@components/note-editor/note-editor.component';
 
 @Component({
   selector: 'app-client-form',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NoteEditorComponent],
   templateUrl: './client-form.html',
   styleUrl: './client-form.scss',
 })

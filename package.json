@@ -18,7 +18,10 @@
     "@angular/router": "^21.2.0",
     "@ikedadev/anami-ui": "^1.3.9",
     "apexcharts": "^5.10.6",
+    "marked": "^18.0.3",
     "ng-apexcharts": "^2.4.0",
+    "ngx-markdown": "^21.3.0",
+    "prismjs": "^1.30.0",
     "remixicon": "^4.9.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"

@@ -1,0 +1,111 @@
+@use '@ikedadev/anami-ui/scss/abstracts/variables' as *;
+@use '@ikedadev/anami-ui/scss/abstracts/colors' as *;
+
+:host {
+  display: block;
+  width: 100%;
+}
+textarea::-webkit-resizer {
+  background-color: transparent;
+}
+.an-note-editor {
+  border: 1px solid clr('neutral', '200'); // Usando tu función clr
+  border-radius: $radius-md; //
+  background: clr('bg', 'surface');
+  transition: $transition-base;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  &:focus-within {
+    border-color: clr('brand', 'primary');
+    box-shadow: $shadow-soft; //
+  }
+
+  &.--disabled {
+    background: clr('neutral', '100');
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
+  &__header {
+    background: clr('neutral', '100');
+    border-bottom: 1px solid clr('neutral', '200');
+    padding: 0 8px;
+  }
+
+  &__tabs {
+    display: flex;
+    gap: 4px;
+  }
+
+  .an-note-tab {
+    padding: 12px 16px;
+    border: none;
+    background: transparent;
+    font-family: $font-main; //
+    font-size: 1.4rem;
+    font-weight: $font-weight-medium;
+    color: clr('text', 'light');
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: $transition-base;
+
+    &.--active {
+      color: clr('brand', 'primary');
+      border-bottom-color: clr('brand', 'primary');
+      font-weight: $font-weight-bold;
+    }
+
+    &:hover:not(.--active) {
+      color: clr('text', 'main');
+    }
+  }
+
+  &__body {
+    min-height: 200px;
+  }
+
+  .an-note-textarea {
+    width: 100%;
+    min-height: 200px;
+    padding: 16px;
+    border: none;
+    outline: none;
+    font-family: 'Courier New', monospace;
+
+    font-size: 1.4rem;
+    color: clr('text', 'main');
+    background: transparent;
+    resize: vertical;
+
+    &::placeholder {
+      color: clr('text', 'light');
+    }
+  }
+
+  .an-note-preview {
+    padding: 16px;
+    min-height: 200px;
+    color: clr('text', 'main');
+    font-family: $font-main;
+
+    ::ng-deep markdown {
+      // Estilos para que el markdown renderizado use tus colores
+      h1,
+      h2,
+      h3 {
+        color: clr('brand', 'primary');
+        margin-top: 0;
+      }
+      p {
+        line-height: 1.6;
+      }
+      code {
+        background: clr('brand', 'blob');
+        padding: 2px 4px;
+        border-radius: $radius-sm;
+      }
+    }
+  }
+}
