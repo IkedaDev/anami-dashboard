@@ -16,6 +16,8 @@ import { DrawerService } from '@services/drawer/drawer.service';
 import { ClientForm } from './client-form/client-form';
 import { SearchQuery } from '@models/api/index';
 import { ClientFindByRequest } from '@models/api/client-api.model';
+import { ModalService } from '@services/modal/modal.service';
+import { ClientDetailComponent } from './client-detail/client-detail.component';
 
 @Component({
   selector: 'app-clients-page',
@@ -34,6 +36,7 @@ import { ClientFindByRequest } from '@models/api/client-api.model';
 export class ClientsPage {
   public clientService = inject(ClientService);
   public drawerService = inject(DrawerService);
+  public modalService = inject(ModalService);
   public searchQuery = signal<SearchQuery<ClientFindByRequest>>(
     new SearchQuery({ limit: 6, page: 1 }),
   );
@@ -68,9 +71,27 @@ export class ClientsPage {
     });
   }
 
-  handleDelete(client: Client) {
-    this.clientService.delete(client.id).subscribe();
+  async handleDelete(client: Client) {
+    const confirmed = await this.modalService.openConfirm({
+      title: 'Eliminar Cliente',
+      message: `¿Estás seguro de borrar a ${client.name}?`,
+      confirmText: 'Sí, borrar',
+      cancelText: 'No, mantener',
+    });
+
+    if (confirmed) {
+      this.clientService.delete(client.id).subscribe({
+        next: () => this.clientsResource.reload(),
+      });
+    }
   }
 
-  handleView(client: Client) {}
+  handleView(client: Client) {
+    this.modalService.open({
+      component: ClientDetailComponent,
+      title: `Detalle: ${client.name}`,
+      size: 'md',
+      data: { client },
+    });
+  }
 }

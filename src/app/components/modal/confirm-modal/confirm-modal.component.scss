@@ -1,0 +1,13 @@
+@use '@ikedadev/anami-ui/scss/abstracts/variables' as *;
+
+.an-confirm-modal {
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 1.5rem;
+    background: rgba(var(--an-brand-primary-rgb), 0.02);
+    border-top: 1px solid var(--an-border-color);
+    border-radius: 0 0 $radius-md $radius-md; //
+  }
+}

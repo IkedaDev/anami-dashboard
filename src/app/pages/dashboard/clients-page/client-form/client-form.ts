@@ -48,12 +48,8 @@ export class ClientForm implements OnInit {
 
     this.isSaving.set(true);
 
-    request$
-      .pipe(
-        finalize(() => this.isSaving.set(false)), // Se apaga la carga falle o no
-      )
-      .subscribe({
-        next: () => this.drawer.close(),
-      });
+    request$.pipe(finalize(() => this.isSaving.set(false))).subscribe({
+      next: () => this.drawer.close(),
+    });
   }
 }

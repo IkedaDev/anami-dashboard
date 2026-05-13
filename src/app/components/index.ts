@@ -5,3 +5,6 @@ export * from './pagination/pagination.component';
 export * from './chart/chart.component';
 export * from './modal/modal.component';
 export * from './icon/icon.component';
+export * from './modal/modal.component';
+export * from './toast-container/toast-container.component';
+export * from './drawer/drawer.component';

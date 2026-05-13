@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { SidebarComponent } from '@components/index';
-import { ToastContainer } from '@components/toast-container/toast-container.component';
-import { DrawerContainer } from '@components/drawer/drawer.component';
+import {
+  SidebarComponent,
+  ModalComponent,
+  ToastContainer,
+  DrawerContainer,
+} from '@components/index';
 
 @Component({
   selector: 'app-dashboard-layout',
-  imports: [RouterOutlet, SidebarComponent, ToastContainer, DrawerContainer],
+  imports: [RouterOutlet, SidebarComponent, ToastContainer, DrawerContainer, ModalComponent],
   templateUrl: './dashboard-layout.html',
   styleUrl: './dashboard-layout.scss',
 })

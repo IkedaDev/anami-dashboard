@@ -16,14 +16,12 @@ export class ClientService {
   private toast = inject(ToastService);
   private readonly URL = `${environment.apiUrl}/clients`;
 
-  // public clients = signal<Client[]>([]);
   public selectedClient = signal<Client | null>(null);
 
   getPaginated(req: SearchQuery<ClientFindByRequest>) {
     return this.http.post<PaginatedResponse<Client>>(`${this.URL}/paginated`, req.body, {
       params: req.getParams(),
     });
-    // .pipe(tap(({ data }) => this.clients.set(data)));
   }
 
   create(client: Omit<Partial<Client>, 'id'>) {
@@ -38,8 +36,7 @@ export class ClientService {
 
   update(id: string, client: Omit<Partial<Client>, 'id'>) {
     return this.http.patch<ApiResponse<Client>>(`${this.URL}/${id}`, client).pipe(
-      tap(({ data }) => {
-        // this.clients.update((prevClients) => prevClients.map((c) => (c.id === id ? data : c)));
+      tap(() => {
         this.toast.show('Cliente modificado', 'success');
       }),
       catchError((ex) => {
@@ -54,7 +51,6 @@ export class ClientService {
       tap(({ success }) => {
         if (success) {
           this.toast.show(`Cliente eliminado`, 'success');
-          // this.clients.update((prevClients) => prevClients.filter((c) => c.id !== id));
         }
       }),
       catchError((ex) => {
