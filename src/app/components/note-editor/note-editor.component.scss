@@ -4,10 +4,31 @@
 :host {
   display: block;
   width: 100%;
+  border: 1px solid clr('neutral', '200');
+  border-radius: $radius-md;
+  background: clr('bg', 'surface');
+  transition: $transition-base;
+  overflow: hidden; // Importante para que el fondo del header no tape el radio
+
+  // Estado de FOCO
+  &:focus-within {
+    border-color: clr('brand', 'primary');
+    box-shadow: $shadow-soft;
+  }
+
+  // Estado de ERROR (activado por tu binding externo)
+  &.error {
+    border-color: clr('feedback', 'danger') !important;
+
+    &:focus-within {
+      box-shadow: 0 0 0 4px clr('brand', 'blob'); // Halo sutil al estilo Anami
+    }
+  }
 }
 textarea::-webkit-resizer {
   background-color: transparent;
 }
+
 .an-note-editor {
   border: 1px solid clr('neutral', '200'); // Usando tu función clr
   border-radius: $radius-md; //
@@ -16,6 +37,7 @@ textarea::-webkit-resizer {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  border: none;
 
   &:focus-within {
     border-color: clr('brand', 'primary');
@@ -32,11 +54,38 @@ textarea::-webkit-resizer {
     background: clr('neutral', '100');
     border-bottom: 1px solid clr('neutral', '200');
     padding: 0 8px;
+    :host.error & {
+      border-bottom-color: rgba(clr('feedback', 'danger'), 0.2);
+    }
   }
 
   &__tabs {
     display: flex;
     gap: 4px;
+  }
+
+  &.--invalid {
+    border-color: clr('feedback', 'danger'); //
+
+    &:focus-within {
+      box-shadow: 0 0 0 4px clr('brand', 'blob');
+      border-color: clr('feedback', 'danger');
+    }
+  }
+
+  &__error-msg {
+    margin-top: 4px;
+    font-size: 0.75rem;
+    font-weight: $font-weight-medium; //
+    color: clr('feedback', 'danger');
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    &::before {
+      content: '⚠️';
+      font-size: 0.8rem;
+    }
   }
 
   .an-note-tab {

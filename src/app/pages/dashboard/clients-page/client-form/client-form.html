@@ -30,9 +30,9 @@
     <input type="text" class="an-field__input" formControlName="address" />
   </div>
 
-  <div class="an-field">
+  <div class="an-field" [class.an-field--danger]="formUtils.isInvalidInput('notes')">
     <label class="an-field__label">Notas / Alergias</label>
-    <app-note-editor formControlName="notes" />
+    <app-note-editor [class.error]="formUtils.isInvalidInput('notes')" formControlName="notes" />
   </div>
 </form>
 
