@@ -1,10 +1,9 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, resource, signal } from '@angular/core';
 import { Client } from '@models/business/index';
 import { SearchQuery } from '@models/api';
 import { ClientFindByRequest } from '@models/api/client-api.model';
-import { rxResource } from '@angular/core/rxjs-interop';
 import { ClientService } from './client.service';
-import { catchError, tap, throwError } from 'rxjs';
+import { catchError, firstValueFrom, tap, throwError } from 'rxjs';
 import { ToastService } from '@services/toast/toast.service';
 import { ModalService } from '@services/modal/modal.service';
 import { DrawerService } from '@services/drawer/drawer.service';
@@ -23,9 +22,9 @@ export class ClientPageService {
     new SearchQuery({ limit: 6, page: 1 }),
   );
 
-  clientsResource = rxResource({
+  clientsResource = resource({
     params: () => this.searchQuery(),
-    stream: ({ params }) => this.clientService.getPaginated(params),
+    loader: ({ params }) => firstValueFrom(this.clientService.getPaginated(params)),
   });
 
   changePage(page: number) {
