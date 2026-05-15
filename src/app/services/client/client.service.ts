@@ -3,7 +3,6 @@ import { Client } from '@models/business/index';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ApiResponse, PaginatedResponse, SearchQuery } from '@models/api';
-import { ClientFindByRequest } from '@models/api/client-api.model';
 import { catchError, throwError } from 'rxjs';
 
 @Injectable({
@@ -13,10 +12,8 @@ export class ClientService {
   private http = inject(HttpClient);
   private readonly URL = `${environment.apiUrl}/clients`;
 
-  getPaginated(req: SearchQuery<ClientFindByRequest>) {
-    return this.http.post<PaginatedResponse<Client>>(`${this.URL}/paginated`, req.body, {
-      params: req.getParams(),
-    });
+  getPaginated(req: SearchQuery) {
+    return this.http.post<PaginatedResponse<Client>>(`${this.URL}/paginated`, req);
   }
 
   create(client: Omit<Partial<Client>, 'id'>) {

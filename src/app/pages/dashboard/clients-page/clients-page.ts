@@ -47,6 +47,17 @@ export class ClientsPage {
     { key: 'actions', label: 'Acciones' },
   ]);
 
+  private searchTimeout?: number;
+
+  onSearch(event: Event) {
+    const term = (event.target as HTMLInputElement).value;
+    if (this.searchTimeout) clearTimeout(this.searchTimeout);
+
+    this.searchTimeout = setTimeout(() => {
+      this.clientPageService.applySearch(term);
+    }, 400);
+  }
+
   openNewClient() {
     this.clientPageService.selectedClient.set(null);
     this.drawerService.open({ title: 'Nuevo Cliente', component: ClientForm });

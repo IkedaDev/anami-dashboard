@@ -33,6 +33,21 @@
     ></an-card-stats>
   </div>
   <section class="an-card">
+    <div class="an-p-4">
+      <div class="an-field an-field--has-icon-start">
+        <div class="an-field__input-wrapper">
+          <span class="an-field__icon an-field__icon--start">
+            <an-icon name="search-line"></an-icon>
+          </span>
+          <input
+            type="text"
+            class="an-field__input"
+            placeholder="Escribe el nombre del cliente..."
+            (input)="onSearch($event)"
+          />
+        </div>
+      </div>
+    </div>
     <app-table
       [columns]="columns()"
       [data]="clientsResource.value()?.data || []"
@@ -83,8 +98,8 @@
     </app-table>
     <app-pagination
       [totalItems]="clientsResource.value()?.meta?.total || 0"
-      [pageSize]="searchQuery().limit"
-      [currentPage]="searchQuery().page"
+      [pageSize]="searchQuery().pagination.limit"
+      [currentPage]="searchQuery().pagination.page"
       (pageChange)="changePage($event)"
     >
     </app-pagination>

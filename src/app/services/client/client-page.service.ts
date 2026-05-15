@@ -1,7 +1,6 @@
 import { inject, Injectable, resource, signal } from '@angular/core';
 import { Client } from '@models/business/index';
 import { SearchQuery } from '@models/api';
-import { ClientFindByRequest } from '@models/api/client-api.model';
 import { ClientService } from './client.service';
 import { catchError, firstValueFrom, tap, throwError } from 'rxjs';
 import { ToastService } from '@services/toast/toast.service';
@@ -18,9 +17,7 @@ export class ClientPageService {
   public modalService = inject(ModalService);
   public drawerService = inject(DrawerService);
 
-  public searchQuery = signal<SearchQuery<ClientFindByRequest>>(
-    new SearchQuery({ limit: 6, page: 1 }),
-  );
+  public searchQuery = signal<SearchQuery>(new SearchQuery({ pagination: { limit: 6, page: 1 } }));
 
   clientsResource = resource({
     params: () => this.searchQuery(),
@@ -28,7 +25,25 @@ export class ClientPageService {
   });
 
   changePage(page: number) {
-    this.searchQuery.update((c) => c.clone({ page }));
+    this.searchQuery.update((c) => c.clone({ pagination: { ...c.pagination, page } }));
+  }
+
+  applySearch(term: string) {
+    this.searchQuery.update((current) =>
+      current.clone({
+        ...current,
+        filters: [
+          {
+            logic: 'OR',
+            filters: [
+              { field: 'name', operator: 'CONTAINS', value: term },
+              { field: 'rut', operator: 'CONTAINS', value: term },
+              { field: 'email', operator: 'CONTAINS', value: term },
+            ],
+          },
+        ],
+      }),
+    );
   }
 
   async handleDelete(client: Client) {
