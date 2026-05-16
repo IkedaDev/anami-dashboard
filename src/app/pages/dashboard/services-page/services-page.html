@@ -18,12 +18,30 @@
     <an-card-stats title="Activos" value="10" icon="an-icon-check"></an-card-stats>
   </div>
 
-  <section class="an-card">
-    <app-table [columns]="columns()" [data]="services()">
+  <section class="">
+    <div class="an-flex an-justify-end an-pt-4">
+      <div class="an-field an-field--has-icon-start an-w-50">
+        <div class="an-field__input-wrapper">
+          <span class="an-field__icon an-field__icon--start">
+            <an-icon name="search-line"></an-icon>
+          </span>
+          <input
+            type="text"
+            class="an-field__input"
+            placeholder="Escribe el nombre del cliente..."
+            (input)="onSearch($event)"
+          />
+        </div>
+      </div>
+    </div>
+    <app-table
+      [columns]="columns()"
+      [data]="servicesResource.value()?.data || []"
+      [loading]="servicesResource.isLoading()"
+    >
       <ng-template anTemplate="name" let-row>
         <div class="an-flex an-flex-column">
           <span class="an-text--bold">{{ row.name }}</span>
-          <!-- <small class="an-text--light" style="font-size: 1.2rem">{{ row.description }}</small> -->
         </div>
       </ng-template>
 
@@ -35,17 +53,7 @@
 
       <ng-template anTemplate="duration" let-row>
         <div class="an-flex an-align-center an-gap-1">
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <circle cx="12" cy="12" r="10"></circle>
-            <polyline points="12 6 12 12 16 14"></polyline>
-          </svg>
+          <an-icon name="time-line" />
           <span>{{ row.duration }} min</span>
         </div>
       </ng-template>
@@ -61,87 +69,32 @@
       </ng-template>
 
       <ng-template anTemplate="actions" let-row>
-        <div style="display: flex; gap: 0.8rem">
-          <button class="an-button an-button--outline an-button--sm" (click)="handleEdit(row)">
-            Configurar
+        <div class="table-btns">
+          <button
+            class="an-button an-button--outline-warning an-button--sm"
+            (click)="handleEdit(row)"
+            title="Editar"
+          >
+            <an-icon name="pencil-line"></an-icon>
+            Editar
+          </button>
+          <button
+            class="an-button an-button--outline-danger an-button--sm"
+            title="Eliminar"
+            (click)="handleDelete(row)"
+          >
+            <an-icon name="delete-bin-6-line"></an-icon>
           </button>
         </div>
       </ng-template>
     </app-table>
 
     <app-pagination
-      [totalItems]="services().length"
-      [pageSize]="10"
-      [currentPage]="page()"
-      (pageChange)="page.set($event)"
+      [totalItems]="servicesResource.value()?.meta?.total || 0"
+      [pageSize]="searchQuery().pagination.limit"
+      [currentPage]="searchQuery().pagination.page"
+      (pageChange)="changePage($event)"
     >
     </app-pagination>
   </section>
-
-  <!-- <app-drawer [title]="drawerTitle()" [isOpen]="isDrawerOpen()" (close)="isDrawerOpen.set(false)">
-    <form [formGroup]="serviceForm" class="an-flex an-flex-column an-gap-6">
-      <div class="an-field" [class.an-field--danger]="formUtils.isInvalidInput('name')">
-        <label class="an-field__label">Nombre del Servicio</label>
-        <input
-          type="text"
-          class="an-field__input"
-          formControlName="name"
-          placeholder="Ej: Masaje Descontracturante"
-        />
-        @if (formUtils.isInvalidInput('name')) {
-          <small class="an-field__feedback-message"
-            >El nombre es requerido (mín. 3 caracteres)</small
-          >
-        }
-      </div>
-
-      <div class="an-flex an-gap-4 an-w-full">
-        <div class="an-field an-w-50">
-          <label class="an-field__label">Precio (CLP)</label>
-          <input type="number" class="an-field__input" formControlName="price" />
-        </div>
-
-        <div class="an-field an-w-50">
-          <label class="an-field__label">Duración</label>
-          <select class="an-field__input" formControlName="duration">
-            <option [value]="30">30 min</option>
-            <option [value]="60">60 min</option>
-            <option [value]="90">90 min</option>
-            <option [value]="120">120 min</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="an-field">
-        <label class="an-field__label">Descripción (Opcional)</label>
-        <textarea
-          class="an-field__input"
-          formControlName="description"
-          rows="3"
-          placeholder="Detalles sobre la técnica o beneficios..."
-        ></textarea>
-      </div>
-
-      <div class="an-field">
-        <label class="an-checkbox">
-          <input type="checkbox" class="an-checkbox__input" formControlName="isActive" />
-          <span class="an-checkbox__box"></span>
-          <span class="an-text--main">Servicio disponible para reservas</span>
-        </label>
-      </div>
-    </form>
-
-    <div footer class="an-flex an-w-full an-gap-3">
-      <button class="an-button an-button--outline an-flex-fill" (click)="isDrawerOpen.set(false)">
-        Cancelar
-      </button>
-      <button
-        class="an-button an-button--primary an-flex-fill"
-        (click)="saveService()"
-        [disabled]="!formUtils.canSave()"
-      >
-        {{ service.selectedService() ? 'Actualizar' : 'Crear Servicio' }}
-      </button>
-    </div>
-  </app-drawer> -->
 </div>

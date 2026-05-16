@@ -1,31 +1,43 @@
 import { inject, Injectable } from '@angular/core';
-import { Client } from '@models/business/index';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ApiResponse, PaginatedResponse, SearchQuery } from '@models/api';
+import { Service } from '@models/business';
 import { catchError, map, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ClientService {
+export class ServiceService {
   private http = inject(HttpClient);
-  private readonly URL = `${environment.apiUrl}/clients`;
+  private readonly URL = `${environment.apiUrl}/services`;
 
   getPaginated(req: SearchQuery) {
-    return this.http.post<PaginatedResponse<Client>>(`${this.URL}/paginated`, req);
+    return this.http.post<PaginatedResponse<any>>(`${this.URL}/paginated`, req).pipe(
+      map((req) => ({
+        ...req,
+        data: req.data.map(
+          (s) =>
+            ({
+              ...s,
+              price: s.basePrice,
+              duration: s.durationMin,
+            }) as Service,
+        ),
+      })),
+    );
   }
 
-  create(client: Omit<Partial<Client>, 'id'>) {
-    return this.http.post<ApiResponse<Client>>(this.URL, client).pipe(
+  create(service: Omit<Partial<Service>, 'id'>) {
+    return this.http.post<ApiResponse<Service>>(this.URL, service).pipe(
       catchError((ex) => {
         return throwError(() => ex);
       }),
     );
   }
 
-  update(id: string, client: Omit<Partial<Client>, 'id'>) {
-    return this.http.patch<ApiResponse<Client>>(`${this.URL}/${id}`, client).pipe(
+  update(id: string, service: Omit<Partial<Service>, 'id'>) {
+    return this.http.patch<ApiResponse<Service>>(`${this.URL}/${id}`, service).pipe(
       catchError((ex) => {
         return throwError(() => ex);
       }),

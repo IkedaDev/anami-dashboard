@@ -27,8 +27,8 @@ importers:
         specifier: ^21.2.0
         version: 21.2.10(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.2))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.2))(@angular/platform-browser@21.2.10(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.2))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.2)))(rxjs@7.8.2)
       '@ikedadev/anami-ui':
-        specifier: ^1.3.9
-        version: 1.3.9
+        specifier: ^1.3.10
+        version: 1.3.10
       apexcharts:
         specifier: ^5.10.6
         version: 5.10.6
@@ -590,8 +590,8 @@ packages:
     peerDependencies:
       hono: ^4
 
-  '@ikedadev/anami-ui@1.3.9':
-    resolution: {integrity: sha512-iF7LqlH3MuXWG9RU6zVaT9VRyhSDPJfCGlAgtMK/XwK90ascMnEDFCZc4luQsPl0YmXF8etsi8o3za3zrqlOgQ==}
+  '@ikedadev/anami-ui@1.3.10':
+    resolution: {integrity: sha512-mPuQ+soj3jiTTnuwBdlA6V2UO1+EjjZGuvXlAyrncNbf3LofiWhqzranNvdAOQQF0yUHmDHUhCkat08Zu1rI+g==}
 
   '@inquirer/ansi@1.0.2':
     resolution: {integrity: sha512-S8qNSZiYzFd0wAcyG5AXCvUHC5Sr7xpZ9wZ2py9XR88jUz8wooStVx5M6dRzczbBWjic9NP7+rY0Xi7qqK/aMQ==}
@@ -3285,7 +3285,7 @@ snapshots:
     dependencies:
       hono: 4.12.14
 
-  '@ikedadev/anami-ui@1.3.9': {}
+  '@ikedadev/anami-ui@1.3.10': {}
 
   '@inquirer/ansi@1.0.2': {}
 

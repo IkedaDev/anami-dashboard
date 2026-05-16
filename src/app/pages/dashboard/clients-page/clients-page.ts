@@ -71,7 +71,7 @@ export class ClientsPage {
     });
   }
 
-  async handleDelete(client: Client) {
+  handleDelete(client: Client) {
     this.clientPageService.handleDelete(client);
   }
 

@@ -1,0 +1,57 @@
+<form [formGroup]="serviceForm" class="an-flex an-flex-column an-gap-6">
+  <div class="an-field" [class.an-field--danger]="formUtils.isInvalidInput('name')">
+    <label class="an-field__label">Nombre del Servicio</label>
+    <input
+      type="text"
+      class="an-field__input"
+      formControlName="name"
+      placeholder="Ej: Masaje Descontracturante"
+    />
+    @if (formUtils.isInvalidInput('name')) {
+      <small class="an-field__feedback-message">El nombre es requerido (mín. 3 caracteres)</small>
+    }
+  </div>
+
+  <div class="an-flex an-gap-4 an-w-full">
+    <div class="an-field an-w-50">
+      <label class="an-field__label">Precio (CLP)</label>
+      <input type="number" class="an-field__input" formControlName="price" />
+    </div>
+
+    <div class="an-field an-w-50">
+      <label class="an-field__label">Duracion en minutos</label>
+      <input type="number" class="an-field__input" formControlName="duration" />
+    </div>
+  </div>
+
+  <div class="an-field">
+    <label class="an-field__label">Descripción (Opcional)</label>
+    <textarea
+      class="an-field__input"
+      formControlName="description"
+      rows="3"
+      placeholder="Detalles sobre la técnica o beneficios..."
+    ></textarea>
+  </div>
+
+  <div class="an-field">
+    <label class="an-checkbox">
+      <input type="checkbox" class="an-checkbox__input" formControlName="isActive" />
+      <span class="an-checkbox__box"></span>
+      <span class="an-text--main">Servicio disponible para reservas</span>
+    </label>
+  </div>
+</form>
+
+<div footer class="an-flex an-w-full an-gap-3 an-mt-5">
+  <button class="an-button an-button--outline an-flex-fill" (click)="drawer.close()">
+    Cancelar
+  </button>
+  <button
+    class="an-button an-button--primary an-flex-fill"
+    (click)="saveService()"
+    [disabled]="!formUtils.canSave()"
+  >
+    {{ service.selectedService() ? 'Actualizar' : 'Crear Servicio' }}
+  </button>
+</div>

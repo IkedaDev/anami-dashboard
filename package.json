@@ -16,7 +16,7 @@
     "@angular/forms": "^21.2.0",
     "@angular/platform-browser": "^21.2.0",
     "@angular/router": "^21.2.0",
-    "@ikedadev/anami-ui": "^1.3.9",
+    "@ikedadev/anami-ui": "^1.3.10",
     "apexcharts": "^5.10.6",
     "marked": "^18.0.3",
     "ng-apexcharts": "^2.4.0",
