@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { ApiResponse, PaginatedResponse, SearchQuery } from '@models/api';
+import { ApiResponse, PaginatedResponse, SearchQuery, ServiceMetrics } from '@models/api';
 import { Service } from '@models/business';
 import { catchError, map, throwError } from 'rxjs';
 
@@ -11,6 +11,10 @@ import { catchError, map, throwError } from 'rxjs';
 export class ServiceService {
   private http = inject(HttpClient);
   private readonly URL = `${environment.apiUrl}/services`;
+
+  getMetrics() {
+    return this.http.get<ApiResponse<ServiceMetrics>>(`${this.URL}/metrics`);
+  }
 
   getPaginated(req: SearchQuery) {
     return this.http.post<PaginatedResponse<any>>(`${this.URL}/paginated`, req).pipe(

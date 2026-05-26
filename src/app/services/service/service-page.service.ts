@@ -24,6 +24,10 @@ export class ServicePageService {
     loader: ({ params }) => firstValueFrom(this.serviceService.getPaginated(params)),
   });
 
+  metricsResource = resource({
+    loader: () => firstValueFrom(this.serviceService.getMetrics()),
+  });
+
   changePage(page: number) {
     this.searchQuery.update((c) => c.clone({ pagination: { ...c.pagination, page } }));
   }
@@ -65,14 +69,21 @@ export class ServicePageService {
           }),
         )
         .subscribe({
-          next: () => this.servicesResource.reload(),
+          next: () => {
+            this.servicesResource.reload();
+            this.metricsResource.reload();
+          },
         });
     }
   }
 
   create(service: Omit<Partial<Service>, 'id'>) {
     return this.serviceService.create(service).pipe(
-      tap(() => this.toast.show('Servicio agregado', 'success')),
+      tap(() => {
+        this.toast.show('Servicio agregado', 'success');
+        this.servicesResource.reload();
+        this.metricsResource.reload();
+      }),
       catchError((ex) => {
         this.toast.show('Ha ocurrido un error', 'error');
         return throwError(() => ex);
@@ -84,6 +95,8 @@ export class ServicePageService {
     return this.serviceService.update(id, service).pipe(
       tap(() => {
         this.toast.show('Servicio modificado', 'success');
+        this.servicesResource.reload();
+        this.metricsResource.reload();
       }),
       catchError((ex) => {
         this.toast.show('Ha ocurrido un error', 'error');
@@ -92,3 +105,4 @@ export class ServicePageService {
     );
   }
 }
+

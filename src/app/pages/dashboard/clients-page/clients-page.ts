@@ -36,8 +36,10 @@ export class ClientsPage {
   public modalService = inject(ModalService);
 
   public clientsResource = this.clientPageService.clientsResource;
+  public metricsResource = this.clientPageService.metricsResource;
   public searchQuery = this.clientPageService.searchQuery;
   public changePage = this.clientPageService.changePage;
+
 
   public columns = signal<AnTableColumn[]>([
     { key: 'name', label: 'Nombre Completo' },

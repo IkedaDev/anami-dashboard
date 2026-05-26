@@ -24,6 +24,10 @@ export class ClientPageService {
     loader: ({ params }) => firstValueFrom(this.clientService.getPaginated(params)),
   });
 
+  metricsResource = resource({
+    loader: () => firstValueFrom(this.clientService.getMetrics()),
+  });
+
   changePage(page: number) {
     this.searchQuery.update((c) => c.clone({ pagination: { ...c.pagination, page } }));
   }
@@ -69,14 +73,21 @@ export class ClientPageService {
           }),
         )
         .subscribe({
-          next: () => this.clientsResource.reload(),
+          next: () => {
+            this.clientsResource.reload();
+            this.metricsResource.reload();
+          },
         });
     }
   }
 
   create(client: Omit<Partial<Client>, 'id'>) {
     return this.clientService.create(client).pipe(
-      tap(() => this.toast.show('Cliente agregado', 'success')),
+      tap(() => {
+        this.toast.show('Cliente agregado', 'success');
+        this.clientsResource.reload();
+        this.metricsResource.reload();
+      }),
       catchError((ex) => {
         this.toast.show('Ha ocurrido un error', 'error');
         return throwError(() => ex);
@@ -88,6 +99,8 @@ export class ClientPageService {
     return this.clientService.update(id, client).pipe(
       tap(() => {
         this.toast.show('Cliente modificado', 'success');
+        this.clientsResource.reload();
+        this.metricsResource.reload();
       }),
       catchError((ex) => {
         this.toast.show('Ha ocurrido un error', 'error');
@@ -96,3 +109,4 @@ export class ClientPageService {
     );
   }
 }
+

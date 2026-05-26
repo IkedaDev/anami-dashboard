@@ -11,10 +11,23 @@
   </div>
 
   <div class="an-grid an-grid--responsive an-mb-7">
-    <an-card-stats title="Total Servicios" value="12" icon="an-icon-list"></an-card-stats>
-    <an-card-stats title="Precio Promedio" value="$32.500" icon="an-icon-money"></an-card-stats>
-    <an-card-stats title="Activos" value="10" icon="an-icon-check"></an-card-stats>
+    <an-card-stats title="Total Servicios" [value]="metricsResource.value()?.data?.totalServices || 0"
+      icon="an-icon-list" trendLabel="En catálogo" [loading]="metricsResource.isLoading()"></an-card-stats>
+    <!-- <an-card-stats
+      title="Precio Promedio"
+      [value]="((metricsResource.value()?.data?.averagePrice || 0) | currency: 'CLP' : '$' : 'symbol' : '1.0-0') || ''"
+      icon="an-icon-money"
+      trendLabel="Precio base sugerido"
+      [loading]="metricsResource.isLoading()"
+    ></an-card-stats> -->
+    <an-card-stats title="Activos" [value]="metricsResource.value()?.data?.activeServicesCount || 0"
+      icon="an-icon-check" [trend]="(metricsResource.value()?.data?.activePercentage || 0) + '%'"
+      trendLabel="visibles para agendamiento" [loading]="metricsResource.isLoading()"></an-card-stats>
+    <an-card-stats title="Tasa de Inasistencia (No-Show)"
+      [value]="(metricsResource.value()?.data?.noShowRate || 0) + '%'" icon="an-icon-calendar"
+      trendLabel="citas agendadas no presentadas" [loading]="metricsResource.isLoading()"></an-card-stats>
   </div>
+
 
   <section class="">
     <div class="an-flex an-justify-end an-pt-4">

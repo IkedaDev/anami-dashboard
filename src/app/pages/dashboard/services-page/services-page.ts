@@ -30,8 +30,10 @@ export class ServicesPage {
   public modalService = inject(ModalService);
 
   public servicesResource = this.service.servicesResource;
+  public metricsResource = this.service.metricsResource;
   public searchQuery = this.service.searchQuery;
   public changePage = this.service.changePage;
+
 
   private searchTimeout?: number;
 

@@ -11,27 +11,27 @@
   </div>
 
   <div class="an-grid an-grid--responsive an-mb-7">
-    <an-card-stats
-      title="Total Clientes"
-      [value]="clientsResource.value()?.meta?.total || 0"
-      icon="an-icon-user"
-      trend="+12"
-      trendDirection="up"
-    ></an-card-stats>
-    <an-card-stats
-      title="Con RUT Registrado"
-      value="850"
-      icon="an-icon-check"
-      trend="68%"
-    ></an-card-stats>
-    <an-card-stats
-      title="Clientes del Mes"
-      value="+45"
+    <an-card-stats title="Total Clientes" [value]="metricsResource.value()?.data?.totalClients || 0" icon="an-icon-user"
+      trendLabel="Registrados activos" [loading]="metricsResource.isLoading()"></an-card-stats>
+    <an-card-stats title="Con RUT Registrado" [value]="metricsResource.value()?.data?.clientsWithRutCount || 0"
+      icon="an-icon-check" [trend]="(metricsResource.value()?.data?.clientsWithRutPercentage || 0) + '%'"
+      trendLabel="del total de clientes" [loading]="metricsResource.isLoading()"></an-card-stats>
+    <an-card-stats title="Clientes del Mes" [value]="'+' + (metricsResource.value()?.data?.newClientsThisMonth || 0)"
       icon="an-icon-calendar"
-      trend="+15%"
-      trendDirection="up"
-    ></an-card-stats>
+      [trend]="((metricsResource.value()?.data?.newClientsTrendPercentage ?? 0) >= 0 ? '+' : '') + (metricsResource.value()?.data?.newClientsTrendPercentage ?? 0) + '%'"
+      [trendDirection]="metricsResource.value()?.data?.newClientsTrendDirection || 'neutral'"
+      trendLabel="vs mes anterior" [loading]="metricsResource.isLoading()"></an-card-stats>
+    <an-card-stats title="Tasa de Retención" [value]="(metricsResource.value()?.data?.retentionRate || 0) + '%'"
+      icon="an-icon-user" trendLabel="clientes con 2+ citas" [loading]="metricsResource.isLoading()"></an-card-stats>
+    <!-- <an-card-stats
+      title="LTV Promedio"
+      [value]="((metricsResource.value()?.data?.averageLtv || 0) | currency: 'CLP' : '$' : 'symbol' : '1.0-0') || ''"
+      icon="an-icon-money"
+      trendLabel="ingreso histórico por cliente"
+      [loading]="metricsResource.isLoading()"
+    ></an-card-stats> -->
   </div>
+
   <section class="">
     <div class="an-flex an-justify-end an-pt-4">
       <div class="an-field an-field--has-icon-start an-w-50">
@@ -39,20 +39,13 @@
           <span class="an-field__icon an-field__icon--start">
             <an-icon name="search-line"></an-icon>
           </span>
-          <input
-            type="text"
-            class="an-field__input"
-            placeholder="Escribe el nombre del cliente..."
-            (input)="onSearch($event)"
-          />
+          <input type="text" class="an-field__input" placeholder="Escribe el nombre del cliente..."
+            (input)="onSearch($event)" />
         </div>
       </div>
     </div>
-    <app-table
-      [columns]="columns()"
-      [data]="clientsResource.value()?.data || []"
-      [loading]="clientsResource.isLoading()"
-    >
+    <app-table [columns]="columns()" [data]="clientsResource.value()?.data || []"
+      [loading]="clientsResource.isLoading()">
       <ng-template anTemplate="rut" let-row>
         <code class="an-text--light">{{ row.rut || 'No registrado' }}</code>
       </ng-template>
@@ -70,38 +63,23 @@
 
       <ng-template anTemplate="actions" let-row>
         <div class="table-btns">
-          <button
-            class="an-button an-button--outline-warning an-button--sm"
-            (click)="handleEdit(row)"
-            title="Editar"
-          >
+          <button class="an-button an-button--outline-warning an-button--sm" (click)="handleEdit(row)" title="Editar">
             <an-icon name="pencil-line"></an-icon>
             Editar
           </button>
-          <button
-            class="an-button an-button--outline-info an-button--sm"
-            title="Ver más"
-            (click)="handleView(row)"
-          >
+          <button class="an-button an-button--outline-info an-button--sm" title="Ver más" (click)="handleView(row)">
             Ver más
             <an-icon name="booklet-line"></an-icon>
           </button>
-          <button
-            class="an-button an-button--outline-danger an-button--sm"
-            title="Eliminar"
-            (click)="handleDelete(row)"
-          >
+          <button class="an-button an-button--outline-danger an-button--sm" title="Eliminar"
+            (click)="handleDelete(row)">
             <an-icon name="delete-bin-6-line"></an-icon>
           </button>
         </div>
       </ng-template>
     </app-table>
-    <app-pagination
-      [totalItems]="clientsResource.value()?.meta?.total || 0"
-      [pageSize]="searchQuery().pagination.limit"
-      [currentPage]="searchQuery().pagination.page"
-      (pageChange)="changePage($event)"
-    >
+    <app-pagination [totalItems]="clientsResource.value()?.meta?.total || 0" [pageSize]="searchQuery().pagination.limit"
+      [currentPage]="searchQuery().pagination.page" (pageChange)="changePage($event)">
     </app-pagination>
   </section>
 </div>

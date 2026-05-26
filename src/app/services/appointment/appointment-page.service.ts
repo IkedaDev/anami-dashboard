@@ -29,7 +29,7 @@ export class AppointmentPageService {
   async handleDelete(appointment: Appointment) {
     const confirmed = await this.modalService.openConfirm({
       title: 'Anular Cita',
-      message: `¿Estás seguro de anular la cita de ${appointment.client?.fullName || appointment.client?.name || 'Cliente'}?`,
+      message: `¿Estás seguro de anular la cita de ${appointment.client?.name || 'Cliente'}?`,
       confirmText: 'Sí, anular',
       cancelText: 'No, mantener',
     });

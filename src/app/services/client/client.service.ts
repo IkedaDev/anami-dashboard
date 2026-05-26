@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Client } from '@models/business/index';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { ApiResponse, PaginatedResponse, SearchQuery } from '@models/api';
+import { ApiResponse, ClientMetrics, PaginatedResponse, SearchQuery } from '@models/api';
 import { catchError, map, throwError } from 'rxjs';
 
 @Injectable({
@@ -11,6 +11,10 @@ import { catchError, map, throwError } from 'rxjs';
 export class ClientService {
   private http = inject(HttpClient);
   private readonly URL = `${environment.apiUrl}/clients`;
+
+  getMetrics() {
+    return this.http.get<ApiResponse<ClientMetrics>>(`${this.URL}/metrics`);
+  }
 
   getPaginated(req: SearchQuery) {
     return this.http.post<PaginatedResponse<Client>>(`${this.URL}/paginated`, req);

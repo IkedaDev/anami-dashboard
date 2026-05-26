@@ -1,34 +1,21 @@
 <div class="an-container an-py-6">
-  <div
-    class="an-flex an-justify-between an-align-center an-mb-6"
-    style="display: flex; justify-content: space-between; align-items: center"
-  >
+  <div class="an-flex an-justify-between an-align-center an-mb-6"
+    style="display: flex; justify-content: space-between; align-items: center">
     <h2 class="an-text--h2 an-m-0">Agenda de Citas</h2>
     <button class="an-button an-button--success" (click)="openNewAppointment()">Agendar Nueva Cita</button>
   </div>
 
   <div class="an-grid an-grid--responsive an-mb-7">
-    <an-card-stats
-      title="Total Citas"
-      [value]="appointmentsResource.value()?.meta?.total || 0"
-      icon="an-icon-calendar"
-    ></an-card-stats>
+    <an-card-stats title="Total Citas" [value]="appointmentsResource.value()?.meta?.total || 0"
+      icon="an-icon-calendar"></an-card-stats>
     <an-card-stats title="Por Atender" value="4" icon="an-icon-clock" trend="33%"></an-card-stats>
-    <an-card-stats
-      title="Ventas del Día"
-      value="$245.000"
-      icon="an-icon-money"
-      trend="+15%"
-      trendDirection="up"
-    ></an-card-stats>
+    <an-card-stats title="Ventas del Día" value="$245.000" icon="an-icon-money" trend="+15%"
+      trendDirection="up"></an-card-stats>
   </div>
 
   <section class="an-card">
-    <app-table
-      [columns]="columns()"
-      [data]="appointmentsResource.value()?.data || []"
-      [loading]="appointmentsResource.isLoading()"
-    >
+    <app-table [columns]="columns()" [data]="appointmentsResource.value()?.data || []"
+      [loading]="appointmentsResource.isLoading()">
       <ng-template anTemplate="startsAt" let-row>
         <div class="an-flex an-flex-column">
           <span class="an-text--bold">{{ row.startsAt | date: 'dd/MM/yyyy' }}</span>
@@ -39,14 +26,14 @@
       <ng-template anTemplate="client" let-row>
         <div class="an-flex an-flex-column">
           <span class="an-text--main">{{ row.client.fullName || row.client.name }}</span>
-          <!-- <small class="an-text--light" style="font-size: 1.1rem">{{ row.client.phone }}</small> -->
+          <small class="an-text--light" style="font-size: 1.1rem">{{ row.client.phone }}</small>
         </div>
       </ng-template>
 
       <ng-template anTemplate="items" let-row>
         <div class="an-text--light" style="font-size: 1.2rem; line-height: 1.2">
           @for (item of row.items; track $index) {
-            <div class="an-mb-1">• {{ item.service.name }}</div>
+          <div class="an-mb-1">• {{ item.service.name }}</div>
           }
         </div>
       </ng-template>
@@ -60,54 +47,39 @@
       <ng-template anTemplate="locationType" let-row>
         <span class="an-text--small">
           @if (row.locationType === 'HOTEL') {
-            🏨 Hotel
+          🏨 Hotel
           } @else if (row.locationType === 'STUDIO') {
-            🌿 Studio
+          🌿 Studio
           } @else {
-            🏠 Domicilio
+          🏠 Domicilio
           }
         </span>
       </ng-template>
 
       <ng-template anTemplate="status" let-row>
-        <span
-          class="an-pill"
-          [class.an-pill--success]="row.status === 'COMPLETED'"
+        <span class="an-pill" [class.an-pill--success]="row.status === 'COMPLETED'"
           [class.an-pill--warning]="row.status === 'SCHEDULED'"
-          [class.an-pill--danger]="row.status === 'CANCELLED' || row.status === 'NO_SHOW'"
-        >
+          [class.an-pill--danger]="row.status === 'CANCELLED' || row.status === 'NO_SHOW'">
           {{ row.status }}
         </span>
       </ng-template>
 
       <ng-template anTemplate="actions" let-row>
         <div class="table-btns">
-          <button
-            class="an-button an-button--outline-warning an-button--sm"
-            (click)="handleEdit(row)"
-            title="Editar"
-          >
+          <button class="an-button an-button--outline-warning an-button--sm" (click)="handleEdit(row)" title="Editar">
             Editar
           </button>
           @if (row.status === 'SCHEDULED') {
-            <button
-              class="an-button an-button--outline-danger an-button--sm"
-              title="Anular"
-              (click)="onCancel(row)"
-            >
-              Anular
-            </button>
+          <button class="an-button an-button--outline-danger an-button--sm" title="Anular" (click)="onCancel(row)">
+            Anular
+          </button>
           }
         </div>
       </ng-template>
     </app-table>
 
-    <app-pagination
-      [totalItems]="appointmentsResource.value()?.meta?.total || 0"
-      [pageSize]="searchQuery().pagination.limit"
-      [currentPage]="searchQuery().pagination.page"
-      (pageChange)="changePage($event)"
-    ></app-pagination>
+    <app-pagination [totalItems]="appointmentsResource.value()?.meta?.total || 0"
+      [pageSize]="searchQuery().pagination.limit" [currentPage]="searchQuery().pagination.page"
+      (pageChange)="changePage($event)"></app-pagination>
   </section>
 </div>
-

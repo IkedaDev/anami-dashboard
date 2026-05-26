@@ -5,9 +5,11 @@ export interface Appointment {
   startsAt: Date | string;
   status: 'SCHEDULED' | 'COMPLETED' | 'CANCELLED' | 'NO_SHOW';
   totalPrice: number;
+  anamiShare: number;
+  hotelShare: number
   locationType: 'HOTEL' | 'PARTICULAR' | 'STUDIO';
   clientId: string;
-  client: Partial<Client> & { fullName?: string };
+  client: Partial<Client> & { name?: string };
   items: AppointmentItem[];
   durationMinutes?: number;
   hasNailCut?: boolean;
