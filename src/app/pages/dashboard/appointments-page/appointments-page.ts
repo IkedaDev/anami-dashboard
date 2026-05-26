@@ -4,7 +4,8 @@ import { AnTableComponent, AnPaginationComponent, AnCardStatsComponent } from '@
 import { AnTemplateDirective } from '@directives/an-template.directive';
 import { Appointment } from '@models/business/appoinment.model';
 import { AnTableColumn } from '@models/components/table.model';
-import { AppointmentPageService } from '@services/index';
+import { AppointmentPageService, DrawerService } from '@services/index';
+import { AppointmentForm } from './appointment-form/appointment-form';
 
 @Component({
   selector: 'app-appointments-page',
@@ -21,6 +22,7 @@ import { AppointmentPageService } from '@services/index';
 })
 export class AppointmentsPage {
   public appointmentPageService = inject(AppointmentPageService);
+  public drawerService = inject(DrawerService);
 
   public appointmentsResource = this.appointmentPageService.appointmentsResource;
   public searchQuery = this.appointmentPageService.searchQuery;
@@ -36,6 +38,19 @@ export class AppointmentsPage {
     { key: 'status', label: 'Estado' },
     { key: 'actions', label: 'Acciones' },
   ]);
+
+  openNewAppointment() {
+    this.appointmentPageService.selectedAppointment.set(null);
+    this.drawerService.open({ title: 'Agendar Cita', component: AppointmentForm });
+  }
+
+  handleEdit(appointment: Appointment) {
+    this.appointmentPageService.selectedAppointment.set({ ...appointment });
+    this.drawerService.open({
+      title: 'Editar Cita',
+      component: AppointmentForm,
+    });
+  }
 
   onCancel(appointment: Appointment) {
     this.appointmentPageService.handleDelete(appointment);

@@ -1,0 +1,95 @@
+<form [formGroup]="appointmentForm" class="an-flex an-flex-column an-gap-6">
+  <div class="an-field" [class.an-field--danger]="formUtils.isInvalidInput('clientId')">
+    <label class="an-field__label">Cliente</label>
+    <select class="an-field__input" formControlName="clientId">
+      <option value="" disabled selected>Selecciona un cliente...</option>
+      @for (cli of clients(); track cli.id) {
+        <option [value]="cli.id">{{ cli.name }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="an-field" [class.an-field--danger]="formUtils.isInvalidInput('startsAt')">
+    <label class="an-field__label">Fecha y Hora</label>
+    <input type="datetime-local" class="an-field__input" formControlName="startsAt" />
+  </div>
+
+  <div class="an-field" [class.an-field--danger]="formUtils.isInvalidInput('locationType')">
+    <label class="an-field__label">Ubicación / Modo de Servicio</label>
+    <select class="an-field__input" formControlName="locationType">
+      <option value="PARTICULAR">🏠 Domicilio / Particular</option>
+      <option value="HOTEL">🏨 Hotel</option>
+      <option value="STUDIO">🌿 Studio</option>
+    </select>
+  </div>
+
+  @if (appointmentForm.get('locationType')?.value === 'PARTICULAR') {
+    <!-- Servicios para citas particulares -->
+    <div class="an-field">
+      <label class="an-field__label">Seleccionar Servicios</label>
+      <div class="an-flex an-flex-column an-gap-2" style="max-height: 200px; overflow-y: auto; padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; background-color: #ffffff;">
+        @for (srv of services(); track srv.id) {
+          <label class="an-flex an-align-center an-gap-2" style="cursor: pointer; display: flex; align-items: center; gap: 0.6rem; padding: 0.2rem 0;">
+            <input
+              type="checkbox"
+              [value]="srv.id"
+              [checked]="isServiceSelected(srv.id)"
+              (change)="onServiceChange($event, srv.id)"
+            />
+            <span class="an-text--main" style="font-size: 1.3rem;">{{ srv.name }} ({{ srv.price | currency: 'CLP' : '$' : '1.0-0' }})</span>
+          </label>
+        } @empty {
+          <p class="an-text--light" style="margin: 0; font-size: 1.2rem;">No hay servicios disponibles.</p>
+        }
+      </div>
+    </div>
+  } @else {
+    <!-- Opciones de masaje y corte para Hotel/Studio -->
+    <div class="an-flex an-gap-4 an-w-full" style="display: flex; gap: 1rem; width: 100%;">
+      <div class="an-field an-w-50" style="flex: 1;">
+        <label class="an-field__label">Duración del Masaje</label>
+        <select class="an-field__input" formControlName="durationMinutes">
+          <option [value]="20">20 Minutos ($10.000)</option>
+          <option [value]="40">40 Minutos ($20.000)</option>
+        </select>
+      </div>
+      <div class="an-field an-w-50 an-flex an-align-center" style="flex: 1; display: flex; align-items: center; padding-top: 2rem;">
+        <label class="an-flex an-align-center an-gap-2" style="cursor: pointer; display: flex; align-items: center; gap: 0.6rem;">
+          <input type="checkbox" formControlName="hasNailCut" />
+          <span class="an-text--main" style="font-size: 1.3rem; font-weight: 500;">Corte de Uñas (+$5.000 / +10m)</span>
+        </label>
+      </div>
+    </div>
+  }
+
+  @if (appointmentPageService.selectedAppointment()) {
+    <div class="an-field">
+      <label class="an-field__label">Estado de la Cita</label>
+      <select class="an-field__input" formControlName="status">
+        <option value="SCHEDULED">Agendada</option>
+        <option value="COMPLETED">Completada</option>
+        <option value="CANCELLED">Anulada</option>
+        <option value="NO_SHOW">No Asistió</option>
+      </select>
+    </div>
+  }
+
+  <div class="an-field" [class.an-field--danger]="formUtils.isInvalidInput('notes')">
+    <label class="an-field__label">Notas / Instrucciones</label>
+    <app-note-editor [class.error]="formUtils.isInvalidInput('notes')" formControlName="notes" />
+  </div>
+</form>
+
+<div footer class="an-flex an-w-full an-gap-3 an-mt-7" style="display: flex; width: 100%; gap: 0.8rem; margin-top: 1.5rem;">
+  <button class="an-button an-button--outline an-flex-fill" style="flex: 1;" (click)="drawer.close()">
+    Cancelar
+  </button>
+  <button
+    class="an-button an-button--primary an-flex-fill"
+    style="flex: 1;"
+    (click)="saveAppointment()"
+    [disabled]="!formUtils.canSave() || isSaving()"
+  >
+    {{ appointmentPageService.selectedAppointment() ? 'Actualizar' : 'Agendar Cita' }}
+  </button>
+</div>

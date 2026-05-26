@@ -4,7 +4,7 @@
     style="display: flex; justify-content: space-between; align-items: center"
   >
     <h2 class="an-text--h2 an-m-0">Agenda de Citas</h2>
-    <button class="an-button an-button--success">Agendar Nueva Cita</button>
+    <button class="an-button an-button--success" (click)="openNewAppointment()">Agendar Nueva Cita</button>
   </div>
 
   <div class="an-grid an-grid--responsive an-mb-7">
@@ -81,11 +81,18 @@
       </ng-template>
 
       <ng-template anTemplate="actions" let-row>
-        <div class="an-flex an-gap-2" style="display: flex; gap: 0.8rem">
-          <button class="an-button an-button--outline an-button--sm">Ver</button>
+        <div class="table-btns">
+          <button
+            class="an-button an-button--outline-warning an-button--sm"
+            (click)="handleEdit(row)"
+            title="Editar"
+          >
+            Editar
+          </button>
           @if (row.status === 'SCHEDULED') {
             <button
               class="an-button an-button--outline-danger an-button--sm"
+              title="Anular"
               (click)="onCancel(row)"
             >
               Anular

@@ -9,6 +9,9 @@ export interface Appointment {
   clientId: string;
   client: Partial<Client> & { fullName?: string };
   items: AppointmentItem[];
+  durationMinutes?: number;
+  hasNailCut?: boolean;
+  notes?: string;
 }
 
 export interface AppointmentItem {

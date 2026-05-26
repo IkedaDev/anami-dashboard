@@ -13,6 +13,7 @@ export class AppointmentPageService {
   private appointmentService = inject(AppointmentService);
   private toast = inject(ToastService);
   public modalService = inject(ModalService);
+  public selectedAppointment = signal<Appointment | null>(null);
 
   public searchQuery = signal<SearchQuery>(new SearchQuery({ pagination: { limit: 10, page: 1 } }));
 
@@ -51,5 +52,27 @@ export class AppointmentPageService {
           next: () => this.appointmentsResource.reload(),
         });
     }
+  }
+
+  create(appointment: any) {
+    return this.appointmentService.create(appointment).pipe(
+      tap(() => this.toast.show('Cita agendada', 'success')),
+      catchError((ex) => {
+        this.toast.show('Ha ocurrido un error al agendar la cita', 'error');
+        return throwError(() => ex);
+      }),
+    );
+  }
+
+  update(id: string, appointment: any) {
+    return this.appointmentService.update(id, appointment).pipe(
+      tap(() => {
+        this.toast.show('Cita modificada', 'success');
+      }),
+      catchError((ex) => {
+        this.toast.show('Ha ocurrido un error al modificar la cita', 'error');
+        return throwError(() => ex);
+      }),
+    );
   }
 }

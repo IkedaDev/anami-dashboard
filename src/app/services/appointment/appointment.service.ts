@@ -28,4 +28,20 @@ export class AppointmentService {
       }),
     );
   }
+
+  create(appointment: Partial<Appointment> & { serviceIds?: string[] }) {
+    return this.http.post<ApiResponse<Appointment>>(this.URL, appointment).pipe(
+      catchError((ex) => {
+        return throwError(() => ex);
+      }),
+    );
+  }
+
+  update(id: string, appointment: Partial<Appointment> & { serviceIds?: string[] }) {
+    return this.http.patch<ApiResponse<Appointment>>(`${this.URL}/${id}`, appointment).pipe(
+      catchError((ex) => {
+        return throwError(() => ex);
+      }),
+    );
+  }
 }
