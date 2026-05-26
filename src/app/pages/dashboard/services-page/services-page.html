@@ -1,8 +1,6 @@
 <div class="an-container an-py-6">
-  <div
-    class="an-flex an-justify-between an-align-center an-mb-6"
-    style="display: flex; justify-content: space-between; align-items: center"
-  >
+  <div class="an-flex an-justify-between an-align-center an-mb-6"
+    style="display: flex; justify-content: space-between; align-items: center">
     <div>
       <h2 class="an-text--h2 an-m-0">Catálogo de Servicios</h2>
       <p class="an-text--light">Gestiona los precios y duraciones de tus masajes</p>
@@ -25,20 +23,13 @@
           <span class="an-field__icon an-field__icon--start">
             <an-icon name="search-line"></an-icon>
           </span>
-          <input
-            type="text"
-            class="an-field__input"
-            placeholder="Escribe el nombre del cliente..."
-            (input)="onSearch($event)"
-          />
+          <input type="text" class="an-field__input" placeholder="Escribe el nombre del cliente..."
+            (input)="onSearch($event)" />
         </div>
       </div>
     </div>
-    <app-table
-      [columns]="columns()"
-      [data]="servicesResource.value()?.data || []"
-      [loading]="servicesResource.isLoading()"
-    >
+    <app-table [columns]="columns()" [data]="servicesResource.value()?.data || []"
+      [loading]="servicesResource.isLoading()">
       <ng-template anTemplate="name" let-row>
         <div class="an-flex an-flex-column">
           <span class="an-text--bold">{{ row.name }}</span>
@@ -59,42 +50,28 @@
       </ng-template>
 
       <ng-template anTemplate="status" let-row>
-        <span
-          class="an-pill"
-          [class.an-pill--success]="row.isActive"
-          [class.an-pill--danger]="!row.isActive"
-        >
-          {{ row.isActive ? 'Visible' : 'Oculto' }}
+        <span class="an-pill" [class.an-pill--success]="row.available" [class.an-pill--danger]="!row.available">
+          {{ row.available ? 'Visible' : 'Oculto' }}
         </span>
       </ng-template>
 
       <ng-template anTemplate="actions" let-row>
         <div class="table-btns">
-          <button
-            class="an-button an-button--outline-warning an-button--sm"
-            (click)="handleEdit(row)"
-            title="Editar"
-          >
+          <button class="an-button an-button--outline-warning an-button--sm" (click)="handleEdit(row)" title="Editar">
             <an-icon name="pencil-line"></an-icon>
             Editar
           </button>
-          <button
-            class="an-button an-button--outline-danger an-button--sm"
-            title="Eliminar"
-            (click)="handleDelete(row)"
-          >
+          <button class="an-button an-button--outline-danger an-button--sm" title="Eliminar"
+            (click)="handleDelete(row)">
             <an-icon name="delete-bin-6-line"></an-icon>
           </button>
         </div>
       </ng-template>
     </app-table>
 
-    <app-pagination
-      [totalItems]="servicesResource.value()?.meta?.total || 0"
-      [pageSize]="searchQuery().pagination.limit"
-      [currentPage]="searchQuery().pagination.page"
-      (pageChange)="changePage($event)"
-    >
+    <app-pagination [totalItems]="servicesResource.value()?.meta?.total || 0"
+      [pageSize]="searchQuery().pagination.limit" [currentPage]="searchQuery().pagination.page"
+      (pageChange)="changePage($event)">
     </app-pagination>
   </section>
 </div>

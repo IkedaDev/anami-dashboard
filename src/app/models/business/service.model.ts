@@ -7,4 +7,5 @@ export interface Service {
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
+  available: boolean;
 }

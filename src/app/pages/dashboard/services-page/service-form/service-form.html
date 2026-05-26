@@ -1,14 +1,9 @@
 <form [formGroup]="serviceForm" class="an-flex an-flex-column an-gap-6">
   <div class="an-field" [class.an-field--danger]="formUtils.isInvalidInput('name')">
     <label class="an-field__label">Nombre del Servicio</label>
-    <input
-      type="text"
-      class="an-field__input"
-      formControlName="name"
-      placeholder="Ej: Masaje Descontracturante"
-    />
+    <input type="text" class="an-field__input" formControlName="name" placeholder="Ej: Masaje Descontracturante" />
     @if (formUtils.isInvalidInput('name')) {
-      <small class="an-field__feedback-message">El nombre es requerido (mín. 3 caracteres)</small>
+    <small class="an-field__feedback-message">El nombre es requerido (mín. 3 caracteres)</small>
     }
   </div>
 
@@ -26,17 +21,13 @@
 
   <div class="an-field">
     <label class="an-field__label">Descripción (Opcional)</label>
-    <textarea
-      class="an-field__input"
-      formControlName="description"
-      rows="3"
-      placeholder="Detalles sobre la técnica o beneficios..."
-    ></textarea>
+    <textarea class="an-field__input" formControlName="description" rows="3"
+      placeholder="Detalles sobre la técnica o beneficios..."></textarea>
   </div>
 
   <div class="an-field">
     <label class="an-checkbox">
-      <input type="checkbox" class="an-checkbox__input" formControlName="isActive" />
+      <input type="checkbox" class="an-checkbox__input" formControlName="available" />
       <span class="an-checkbox__box"></span>
       <span class="an-text--main">Servicio disponible para reservas</span>
     </label>
@@ -47,11 +38,8 @@
   <button class="an-button an-button--outline an-flex-fill" (click)="drawer.close()">
     Cancelar
   </button>
-  <button
-    class="an-button an-button--primary an-flex-fill"
-    (click)="saveService()"
-    [disabled]="!formUtils.canSave()"
-  >
+  <button class="an-button an-button--primary an-flex-fill" (click)="saveService()"
+    [disabled]="!formUtils.canSave() || isSaving()">
     {{ service.selectedService() ? 'Actualizar' : 'Crear Servicio' }}
   </button>
 </div>
