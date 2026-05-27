@@ -31,9 +31,19 @@
       </ng-template>
 
       <ng-template anTemplate="items" let-row>
+
         <div class="an-text--light" style="font-size: 1.2rem; line-height: 1.2">
+          @if(row.locationType === "HOTEL"){
+          @if(row.totalPrice > 5000){
+          <div class="an-mb-1">• Masaje</div>
+          }
+          @if(row.hasNailCut){
+          <div class="an-mb-1">• Corte de uñas</div>
+          }
+          }@else {
           @for (item of row.items; track $index) {
           <div class="an-mb-1">• {{ item.service.name }}</div>
+          }
           }
         </div>
       </ng-template>

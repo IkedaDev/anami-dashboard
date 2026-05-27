@@ -1,8 +1,11 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, inject, resource } from '@angular/core';
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { AnCardStatsComponent, AnChartComponent, AnTableComponent } from '@components/index';
 import { AnTemplateDirective } from '@directives/index';
 import { ApexOptions } from 'ng-apexcharts';
+import { DashboardService } from '@services/index';
+import { ActivatedRoute } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-home-page',
@@ -20,12 +23,31 @@ import { ApexOptions } from 'ng-apexcharts';
   styleUrl: './home-page.scss',
 })
 export class HomePage {
-  // --- Stats del Negocio ---
-  public totalRevenue = signal(450000);
-  public appointmentsToday = signal(6);
-  public newClients = signal(12);
+  private route = inject(ActivatedRoute);
+  private dashboardService = inject(DashboardService);
 
-  // --- Próximas Citas (Data para la Tabla) ---
+  // Track referenceDate parameter to easily simulation-test with seed data
+  public referenceDate = signal<string | undefined>(undefined);
+
+  constructor() {
+    this.route.queryParams.subscribe(params => {
+      const refDate = params['referenceDate'];
+      this.referenceDate.set(refDate);
+    });
+  }
+
+  // Load general dashboard metrics from backend
+  public metricsResource = resource({
+    params: () => ({ referenceDate: this.referenceDate() }),
+    loader: ({ params }) => firstValueFrom(this.dashboardService.getMetrics(params.referenceDate)),
+  });
+
+  // --- Stats del Negocio (Computed from API resource) ---
+  public totalRevenue = computed(() => this.metricsResource.value()?.data?.totalRevenue ?? 0);
+  public appointmentsToday = computed(() => this.metricsResource.value()?.data?.appointmentsToday ?? 0);
+  public newClients = computed(() => this.metricsResource.value()?.data?.newClients ?? 0);
+
+  // --- Próximas Citas (Data para la Tabla - Mock) ---
   public upcomingAppointments = signal([
     {
       id: '1',
@@ -57,20 +79,31 @@ export class HomePage {
     { key: 'actions', label: '' },
   ]);
 
-  // --- Configuración de Gráficos ---
-  public salesChartOptions: ApexOptions = {
-    series: [{ name: 'Ingresos', data: [30, 40, 35, 50, 49, 60, 70] }],
-    chart: { type: 'area', height: 280, toolbar: { show: false }, fontFamily: 'Outfit' },
-    colors: ['#D4A373'], // Color marca Anami
-    stroke: { curve: 'smooth', width: 2 },
-    xaxis: { categories: ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom'] },
-  };
+  // --- Configuración de Gráficos (Computed to update dynamically) ---
+  public salesChartOptions = computed<ApexOptions>(() => {
+    const weeklyData = this.metricsResource.value()?.data?.weeklyRevenue ?? [0, 0, 0, 0, 0, 0, 0];
+    return {
+      series: [{ name: 'Ingresos', data: weeklyData }],
+      chart: { type: 'area', height: 280, toolbar: { show: false }, fontFamily: 'Outfit' },
+      colors: ['#D4A373'], // Color marca Anami
+      stroke: { curve: 'smooth', width: 2 },
+      xaxis: { categories: ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom'] },
+    };
+  });
 
-  public revenueSplitOptions: ApexOptions = {
-    series: [280000, 170000],
-    labels: ['Anami Share', 'Hotel Share'],
-    chart: { type: 'donut', height: 280, fontFamily: 'Outfit' },
-    colors: ['#D4A373', '#c47f6b'],
-    legend: { position: 'bottom' },
-  };
+  public revenueSplitOptions = computed<ApexOptions>(() => {
+    const split = this.metricsResource.value()?.data?.revenueSplit;
+    const anamiShare = split?.anamiShare ?? 0;
+    const hotelShare = split?.hotelShare ?? 0;
+    const seriesData = anamiShare === 0 && hotelShare === 0 ? [0, 0] : [anamiShare, hotelShare];
+
+    return {
+      series: seriesData,
+      labels: ['Anami Share', 'Hotel Share'],
+      chart: { type: 'donut', height: 280, fontFamily: 'Outfit' },
+      colors: ['#D4A373', '#c47f6b'],
+      legend: { position: 'bottom' },
+    };
+  });
 }
+

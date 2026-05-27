@@ -9,32 +9,35 @@
       title="Ingresos Mes"
       [value]="(totalRevenue() | currency: 'CLP' : '$')!"
       icon="an-icon-money"
-      trend="+15%"
-      trendDirection="up"
+      [trend]="metricsResource.value()?.data?.revenueTrend || ''"
+      [trendDirection]="metricsResource.value()?.data?.revenueTrendDirection || 'neutral'"
+      [loading]="metricsResource.isLoading()"
     ></an-card-stats>
     <an-card-stats
       title="Citas Hoy"
       [value]="appointmentsToday().toString()"
       icon="an-icon-calendar"
-      trend="Pico a las 15:00"
+      [trend]="metricsResource.value()?.data?.appointmentsTodayTrend || ''"
+      [loading]="metricsResource.isLoading()"
     ></an-card-stats>
     <an-card-stats
       title="Clientes Nuevos"
       [value]="newClients().toString()"
       icon="an-icon-user"
-      trend="+4 esta semana"
-      trendDirection="up"
+      [trend]="metricsResource.value()?.data?.newClientsTrend || ''"
+      [trendDirection]="metricsResource.value()?.data?.newClientsTrendDirection || 'neutral'"
+      [loading]="metricsResource.isLoading()"
     ></an-card-stats>
   </div>
 
   <div class="an-grid an-grid--2 an-mb-7">
     <div class="an-card">
       <div class="an-card__header"><h3 class="an-text--h3">Rendimiento Semanal</h3></div>
-      <app-chart [options]="salesChartOptions"></app-chart>
+      <app-chart [options]="salesChartOptions()"></app-chart>
     </div>
     <div class="an-card">
       <div class="an-card__header"><h3 class="an-text--h3">Distribución de Ingresos</h3></div>
-      <app-chart [options]="revenueSplitOptions"></app-chart>
+      <app-chart [options]="revenueSplitOptions()"></app-chart>
     </div>
   </div>
 

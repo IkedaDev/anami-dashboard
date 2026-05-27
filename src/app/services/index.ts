@@ -7,4 +7,6 @@ export * from './client/client-page.service';
 export * from './service/service-page.service';
 export * from './appointment/appointment.service';
 export * from './appointment/appointment-page.service';
+export * from './dashboard/dashboard.service';
+
 

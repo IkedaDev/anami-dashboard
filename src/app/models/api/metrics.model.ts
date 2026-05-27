@@ -40,3 +40,20 @@ export interface ServiceMetrics {
   maxPrice: number;
   activePercentage: number;
 }
+
+export interface DashboardMetrics {
+  totalRevenue: number;
+  revenueTrend: string;
+  revenueTrendDirection: 'up' | 'down' | 'neutral';
+  appointmentsToday: number;
+  appointmentsTodayTrend: string;
+  newClients: number;
+  newClientsTrend: string;
+  newClientsTrendDirection: 'up' | 'down' | 'neutral';
+  weeklyRevenue: number[];
+  revenueSplit: {
+    anamiShare: number;
+    hotelShare: number;
+  };
+}
+
