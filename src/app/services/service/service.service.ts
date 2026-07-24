@@ -33,7 +33,15 @@ export class ServiceService {
   }
 
   create(service: Omit<Partial<Service>, 'id'>) {
-    return this.http.post<ApiResponse<Service>>(this.URL, service).pipe(
+    const payload = {
+      ...service,
+      basePrice: service.price,
+      durationMin: service.duration,
+    };
+    delete (payload as any).price;
+    delete (payload as any).duration;
+
+    return this.http.post<ApiResponse<Service>>(this.URL, payload).pipe(
       catchError((ex) => {
         return throwError(() => ex);
       }),
@@ -41,7 +49,15 @@ export class ServiceService {
   }
 
   update(id: string, service: Omit<Partial<Service>, 'id'>) {
-    return this.http.patch<ApiResponse<Service>>(`${this.URL}/${id}`, service).pipe(
+    const payload = {
+      ...service,
+      basePrice: service.price,
+      durationMin: service.duration,
+    };
+    delete (payload as any).price;
+    delete (payload as any).duration;
+
+    return this.http.patch<ApiResponse<Service>>(`${this.URL}/${id}`, payload).pipe(
       catchError((ex) => {
         return throwError(() => ex);
       }),

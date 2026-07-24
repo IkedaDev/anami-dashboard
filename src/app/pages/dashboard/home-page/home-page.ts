@@ -3,7 +3,7 @@ import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { AnCardStatsComponent, AnChartComponent, AnTableComponent } from '@components/index';
 import { AnTemplateDirective } from '@directives/index';
 import { ApexOptions } from 'ng-apexcharts';
-import { DashboardService } from '@services/index';
+import { DashboardService, AppointmentService } from '@services/index';
 import { ActivatedRoute } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 
@@ -25,6 +25,7 @@ import { firstValueFrom } from 'rxjs';
 export class HomePage {
   private route = inject(ActivatedRoute);
   private dashboardService = inject(DashboardService);
+  private appointmentService = inject(AppointmentService);
 
   // Track referenceDate parameter to easily simulation-test with seed data
   public referenceDate = signal<string | undefined>(undefined);
@@ -42,35 +43,25 @@ export class HomePage {
     loader: ({ params }) => firstValueFrom(this.dashboardService.getMetrics(params.referenceDate)),
   });
 
+  // Load today's appointments from backend
+  public upcomingAppointmentsResource = resource({
+    params: () => {
+      const ref = this.referenceDate();
+      const baseDate = ref ? new Date(ref) : new Date();
+      const from = new Date(baseDate.getFullYear(), baseDate.getMonth(), baseDate.getDate(), 0, 0, 0, 0);
+      const to = new Date(baseDate.getFullYear(), baseDate.getMonth(), baseDate.getDate(), 23, 59, 59, 999);
+      return { from, to };
+    },
+    loader: ({ params }) => firstValueFrom(this.appointmentService.getAppointments(params.from, params.to)),
+  });
+
   // --- Stats del Negocio (Computed from API resource) ---
   public totalRevenue = computed(() => this.metricsResource.value()?.data?.totalRevenue ?? 0);
   public appointmentsToday = computed(() => this.metricsResource.value()?.data?.appointmentsToday ?? 0);
   public newClients = computed(() => this.metricsResource.value()?.data?.newClients ?? 0);
 
-  // --- Próximas Citas (Data para la Tabla - Mock) ---
-  public upcomingAppointments = signal([
-    {
-      id: '1',
-      startsAt: new Date(),
-      client: { name: 'Sebastian Ikeda' },
-      locationType: 'HOTEL',
-      status: 'SCHEDULED',
-    },
-    {
-      id: '2',
-      startsAt: new Date(Date.now() + 3600000),
-      client: { name: 'Ana María' },
-      locationType: 'STUDIO',
-      status: 'SCHEDULED',
-    },
-    {
-      id: '3',
-      startsAt: new Date(Date.now() + 7200000),
-      client: { name: 'Carlos Pérez' },
-      locationType: 'PARTICULAR',
-      status: 'SCHEDULED',
-    },
-  ]);
+  // --- Próximas Citas (Data para la Tabla - Real) ---
+  public upcomingAppointments = computed(() => this.upcomingAppointmentsResource.value()?.data ?? []);
 
   public tableColumns = signal([
     { key: 'startsAt', label: 'Hora' },

@@ -40,7 +40,7 @@ export class AppointmentService {
           items: appoinment.items.map((i: any) => ({
             service: {
               name: i.serviceName,
-              price: i.serviceAtTime
+              price: i.priceAtTime
             },
             id: i.id,
             serviceId: i.serviceId
@@ -76,6 +76,48 @@ export class AppointmentService {
       catchError((ex) => {
         return throwError(() => ex);
       }),
+    );
+  }
+
+  getAppointments(from: Date, to: Date): Observable<PaginatedResponse<Appointment>> {
+    const params: { [key: string]: string } = {
+      page: '1',
+      limit: '100',
+      from: from.toISOString(),
+      to: to.toISOString(),
+    };
+
+    return this.http.get<PaginatedResponse<any>>(this.URL, { params }).pipe(
+      map(response => ({
+        ...response,
+        data: response.data.map((appoinment: any) => ({
+          id: appoinment.id,
+          anamiShare: appoinment.anamiShare,
+          hotelShare: appoinment.hotelShare,
+          startsAt: new Date(appoinment.startsAt),
+          status: appoinment.status,
+          totalPrice: appoinment.totalPrice,
+          locationType: appoinment.locationType,
+          clientId: appoinment.clientId,
+          client: {
+            id: appoinment.clientId,
+            name: appoinment.clientName,
+          },
+          items: appoinment.items.map((i: any) => ({
+            service: {
+              name: i.serviceName,
+              price: i.priceAtTime
+            },
+            id: i.id,
+            serviceId: i.serviceId
+          } as AppointmentItem)),
+          durationMinutes: appoinment.durationMinutes,
+          hasNailCut: appoinment.hasNailCut,
+          notes: appoinment.notes,
+          createdAt: appoinment.createdAt,
+          updatedAt: appoinment.updatedAt,
+        } as Appointment))
+      }))
     );
   }
 }
