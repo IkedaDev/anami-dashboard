@@ -15,7 +15,7 @@
       icon="an-icon-list" trendLabel="En catálogo" [loading]="metricsResource.isLoading()"></an-card-stats>
     <!-- <an-card-stats
       title="Precio Promedio"
-      [value]="((metricsResource.value()?.data?.averagePrice || 0) | currency: 'CLP' : '$' : 'symbol' : '1.0-0') || ''"
+      [value]="((metricsResource.value()?.data?.averagePrice || 0) | currency: 'CLP' : 'symbol' : '1.0-0') || ''"
       icon="an-icon-money"
       trendLabel="Precio base sugerido"
       [loading]="metricsResource.isLoading()"
@@ -36,7 +36,7 @@
           <span class="an-field__icon an-field__icon--start">
             <an-icon name="search-line"></an-icon>
           </span>
-          <input type="text" class="an-field__input" placeholder="Escribe el nombre del cliente..."
+          <input type="text" class="an-field__input" placeholder="Escribe el nombre del servicio..."
             (input)="onSearch($event)" />
         </div>
       </div>

@@ -4,7 +4,7 @@ import { AnCardStatsComponent, AnChartComponent, AnTableComponent } from '@compo
 import { AnTemplateDirective } from '@directives/index';
 import { ApexOptions } from 'ng-apexcharts';
 import { DashboardService, AppointmentService } from '@services/index';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
@@ -24,6 +24,7 @@ import { firstValueFrom } from 'rxjs';
 })
 export class HomePage {
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private dashboardService = inject(DashboardService);
   private appointmentService = inject(AppointmentService);
 
@@ -62,6 +63,11 @@ export class HomePage {
 
   // --- Próximas Citas (Data para la Tabla - Real) ---
   public upcomingAppointments = computed(() => this.upcomingAppointmentsResource.value()?.data ?? []);
+
+  onQuickAction(type: 'appointment' | 'client') {
+    const route = type === 'appointment' ? '/citas' : '/clientes';
+    this.router.navigate([route], { queryParams: { openDrawer: 'true' } });
+  }
 
   public tableColumns = signal([
     { key: 'startsAt', label: 'Hora' },

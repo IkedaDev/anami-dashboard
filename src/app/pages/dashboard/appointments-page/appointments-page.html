@@ -7,10 +7,11 @@
 
   <div class="an-grid an-grid--responsive an-mb-7">
     <an-card-stats title="Total Citas" [value]="appointmentsResource.value()?.meta?.total || 0"
-      icon="an-icon-calendar"></an-card-stats>
-    <an-card-stats title="Por Atender" value="4" icon="an-icon-clock" trend="33%"></an-card-stats>
-    <an-card-stats title="Ventas del Día" value="$245.000" icon="an-icon-money" trend="+15%"
-      trendDirection="up"></an-card-stats>
+      icon="an-icon-calendar" [loading]="appointmentsResource.isLoading()"></an-card-stats>
+    <an-card-stats title="Citas Hoy" [value]="metricsResource.value()?.data?.appointmentsToday ?? 0"
+      icon="an-icon-clock" [loading]="metricsResource.isLoading()"></an-card-stats>
+    <an-card-stats title="Ventas del Mes" [value]="((metricsResource.value()?.data?.totalRevenue || 0) | currency: 'CLP' : 'symbol' : '1.0-0') || ''"
+      icon="an-icon-money" [loading]="metricsResource.isLoading()"></an-card-stats>
   </div>
 
   <section class="an-card">
@@ -74,17 +75,35 @@
         </span>
       </ng-template>
 
-      <ng-template anTemplate="actions" let-row>
-        <div class="table-btns">
+      <ng-template anTemplate="actions" let-row let-isLast="last" let-index="index">
+        @if (row.status === 'SCHEDULED') {
+          <div class="an-dropdown" [class.an-dropdown--up]="isLast && index > 0">
+            <button class="an-button an-button--outline-secondary an-button--sm dropdown-trigger" (click)="toggleDropdown(row.id, $event)">
+              Acciones
+              <an-icon name="arrow-down-s-line" [size]="14"></an-icon>
+            </button>
+            @if (activeDropdown() === row.id) {
+              <div class="an-dropdown-menu">
+                <button class="dropdown-item" (click)="handleEdit(row)">
+                  Editar
+                </button>
+                <button class="dropdown-item dropdown-item--success" (click)="onComplete(row)">
+                  Completar
+                </button>
+                <button class="dropdown-item dropdown-item--info" (click)="onNoShow(row)">
+                  No Asistió
+                </button>
+                <button class="dropdown-item dropdown-item--danger" (click)="onCancel(row)">
+                  Anular
+                </button>
+              </div>
+            }
+          </div>
+        } @else {
           <button class="an-button an-button--outline-warning an-button--sm" (click)="handleEdit(row)" title="Editar">
             Editar
           </button>
-          @if (row.status === 'SCHEDULED') {
-          <button class="an-button an-button--outline-danger an-button--sm" title="Anular" (click)="onCancel(row)">
-            Anular
-          </button>
-          }
-        </div>
+        }
       </ng-template>
     </app-table>
 

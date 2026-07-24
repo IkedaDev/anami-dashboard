@@ -1,0 +1,79 @@
+@use '@ikedadev/anami-ui/scss/abstracts/colors' as *;
+@use '@ikedadev/anami-ui/scss/abstracts/variables' as *;
+@use 'sass:map';
+
+.an-dropdown {
+  position: relative;
+  display: inline-block;
+
+  .dropdown-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .an-dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    margin-top: 0.6rem;
+    background-color: clr('bg', 'surface'); // #ffffff
+    border: 1px solid clr('brand', 'secondary'); // #e8d3cd
+    border-radius: 0.4rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    min-width: 16rem;
+    overflow: hidden;
+    padding: 0.4rem 0;
+
+    .dropdown-item {
+      background: transparent;
+      border: none;
+      padding: 0.8rem 1.6rem;
+      text-align: left;
+      font-size: 1.35rem;
+      color: clr('text', 'main');
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.2s, color 0.2s;
+      font-weight: 500;
+
+      &:hover {
+        background-color: clr('brand', 'blob'); // #fffcfa / #f9ebe7
+        color: clr('brand', 'primary');
+      }
+
+      &--success {
+        &:hover {
+          background-color: #e8f5e9;
+          color: #2e7d32;
+        }
+      }
+
+      &--info {
+        &:hover {
+          background-color: #e3f2fd;
+          color: #1565c0;
+        }
+      }
+
+      &--danger {
+        &:hover {
+          background-color: #ffebee;
+          color: #c62828;
+        }
+      }
+    }
+  }
+
+  &.an-dropdown--up {
+    .an-dropdown-menu {
+      top: auto;
+      bottom: 100%;
+      margin-top: 0;
+      margin-bottom: 0.6rem;
+    }
+  }
+}

@@ -73,8 +73,8 @@
       <div class="an-card">
         <h3 class="an-text--h3 an-mb-4">Acciones Rápidas</h3>
         <div class="an-flex an-flex-column an-gap-2">
-          <button class="an-button an-button--success">Agendar Masaje</button>
-          <button class="an-button an-button--primary">Nuevo Cliente</button>
+          <button class="an-button an-button--success" (click)="onQuickAction('appointment')">Agendar Masaje</button>
+          <button class="an-button an-button--primary" (click)="onQuickAction('client')">Nuevo Cliente</button>
           <button class="an-button an-button--outline">Descargar Reporte SII</button>
         </div>
       </div>

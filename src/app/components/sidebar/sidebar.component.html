@@ -91,9 +91,16 @@
   </nav>
 
   <div class="db-profile">
-    <div class="an-cell">
-      <div class="user-avatar"></div>
-      <span class="an-cell__title">Ikeda Admin</span>
+    <div class="profile-container">
+      <div class="an-cell" style="padding-left: 0; border: none; background: transparent;">
+        <div class="user-avatar"></div>
+        <span class="an-cell__title" [title]="currentUser()?.fullName || 'Usuario'">
+          {{ currentUser()?.fullName || 'Usuario' }}
+        </span>
+      </div>
+      <button class="logout-btn" (click)="logout()" title="Cerrar Sesión">
+        <an-icon name="logout-box-r-line" [size]="18"></an-icon>
+      </button>
     </div>
   </div>
 </aside>

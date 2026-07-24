@@ -25,7 +25,7 @@
       icon="an-icon-user" trendLabel="clientes con 2+ citas" [loading]="metricsResource.isLoading()"></an-card-stats>
     <!-- <an-card-stats
       title="LTV Promedio"
-      [value]="((metricsResource.value()?.data?.averageLtv || 0) | currency: 'CLP' : '$' : 'symbol' : '1.0-0') || ''"
+      [value]="((metricsResource.value()?.data?.averageLtv || 0) | currency: 'CLP' : 'symbol' : '1.0-0') || ''"
       icon="an-icon-money"
       trendLabel="ingreso histórico por cliente"
       [loading]="metricsResource.isLoading()"

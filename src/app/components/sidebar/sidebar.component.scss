@@ -107,9 +107,16 @@
   margin-top: auto; // Empuja la sección al final del sidebar
   padding: 0 map.get($an-spacings, '6'); // 2.4rem
 
-  .an-cell {
-    padding: map.get($an-spacings, '3') 0; // 1.2rem
+  .profile-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
     border-top: 1px solid clr('brand', 'secondary'); // #e8d3cd
+    padding: map.get($an-spacings, '3') 0; // 1.2rem
+  }
+
+  .an-cell {
     border-radius: 0; // Look cuadrado y elegante
     display: flex;
     align-items: center;
@@ -118,7 +125,7 @@
     // Desactivamos el efecto de hover para esta celda específica si no es link
     &:hover {
       background-color: transparent;
-      cursor: pointer;
+      cursor: default;
     }
     &:hover:not(.an-cell--active) {
       background-color: transparent;
@@ -137,5 +144,27 @@
     font-size: 1.3rem;
     color: clr('text', 'main'); // Color principal de texto
     font-weight: $font-weight-medium;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 15rem;
+  }
+
+  .logout-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: clr('text', 'light');
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem;
+    border-radius: 0.4rem;
+    transition: background-color 0.2s, color 0.2s;
+
+    &:hover {
+      background-color: clr('brand', 'blob');
+      color: clr('brand', 'primary');
+    }
   }
 }

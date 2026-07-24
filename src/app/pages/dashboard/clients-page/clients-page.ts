@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   AnCardStatsComponent,
@@ -15,6 +15,7 @@ import { ClientForm } from './client-form/client-form';
 import { ModalService } from '@services/modal/modal.service';
 import { ClientDetailComponent } from './client-detail/client-detail.component';
 import { ClientPageService } from '@services/index';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-clients-page',
@@ -30,10 +31,19 @@ import { ClientPageService } from '@services/index';
   templateUrl: './clients-page.html',
   styleUrl: './clients-page.scss',
 })
-export class ClientsPage {
+export class ClientsPage implements OnInit {
   public clientPageService = inject(ClientPageService);
   public drawerService = inject(DrawerService);
   public modalService = inject(ModalService);
+  private route = inject(ActivatedRoute);
+
+  ngOnInit() {
+    this.route.queryParams.subscribe((params) => {
+      if (params['openDrawer'] === 'true') {
+        this.openNewClient();
+      }
+    });
+  }
 
   public clientsResource = this.clientPageService.clientsResource;
   public metricsResource = this.clientPageService.metricsResource;

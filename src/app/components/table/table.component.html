@@ -26,7 +26,7 @@
               @if (getTemplate(col.key); as customTemplate) {
                 <ng-container
                   [ngTemplateOutlet]="customTemplate"
-                  [ngTemplateOutletContext]="{ $implicit: row }"
+                  [ngTemplateOutletContext]="{ $implicit: row, index: $index, last: $last }"
                 ></ng-container>
               } @else {
                 {{ row[col.key] }}
